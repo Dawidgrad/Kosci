@@ -2,7 +2,7 @@ const http = require('http');
 const url = require('url');
 const fs = require('fs');
 
-const port = 9000;
+const port = process.env.PORT || 9000;
 
 const server = http.createServer((req, res) => {
 	res.writeHead(200, { 'Access-Control-Allow-Origin': '*' });

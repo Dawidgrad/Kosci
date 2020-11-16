@@ -1,4 +1,4 @@
-import {http} from http;
+const http = require('http');
 const mongoose = require('mongoose');
 
 const url = 'mongodb+srv://dawidgrad:<password>@cluster0.vbira.mongodb.net/<dbname>?retryWrites=true&w=majority';

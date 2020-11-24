@@ -10,8 +10,17 @@
 			integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
 			crossorigin="anonymous"
 		/>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	</head>
 	<body>
+		<div id="nav-placeholder"></div>
+
+		<script>
+			$(() => {
+				$('#nav-placeholder').load('nav.html');
+			});
+		</script>
+
 		<div class="row my-auto">
 			<div class="col-sm-4 mx-auto" id="single-centered-div">
 				<h3>Log-In</h3>

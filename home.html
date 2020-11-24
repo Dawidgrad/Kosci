@@ -5,6 +5,14 @@
 		<!-- <link rel="stylesheet" type="text/css" href="./resources/css/home.css"/> -->
 	</head>
 	<body>
+		<div id="nav-placeholder"></div>
+
+		<script>
+			$(() => {
+				$('#nav-placeholder').load('nav.html');
+			});
+		</script>
+
 		<p id="queryResult"></p>
 	</body>
 </html>

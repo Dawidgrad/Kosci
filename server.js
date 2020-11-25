@@ -1,4 +1,6 @@
+const { response } = require('express');
 const express = require('express');
+const { request } = require('http');
 const mongoose = require('mongoose');
 const path = require('path');
 const db = require('./db');
@@ -32,12 +34,28 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// Specify static path
+app.use(express.static(path.join(__dirname, 'resources')));
+
 // Routes
-app.get('/users', async (request, response) => {
+app.get('/users', async (req, res) => {
 	const users = await db.listAllUsers();
 	const data = { retrievedUsers: users };
-	response.json(data);
-	// response.render('pagename', data) in case of a view - ejs file
+	res.json(data);
+	// res.render('pagename', data) in case of a view - ejs file
+});
+
+app.get('/home', (req, res) => {
+	// const pageData = {};
+	res.render('home');
+});
+
+app.get('/login', (req, res) => {
+	res.render('login');
+});
+
+app.get('/register', (req, res) => {
+	res.render('register');
 });
 
 app.listen(port, () => {

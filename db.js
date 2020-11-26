@@ -14,3 +14,18 @@ async function listAllUsers() {
 
 module.exports.listAllUsers = listAllUsers;
 module.exports.User = User;
+
+// Add data //
+// const data = {
+//     name: 'Dawid',
+//     wins: 10,
+//     losses: 1,
+// };
+// const newUser = new User(data);
+// newUser.save((error) => {
+//     if (error) {
+//             console.log('Could not add the user');
+//     } else {
+//             console.log('Successfully added the user!');
+//     }
+// });

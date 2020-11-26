@@ -12,6 +12,8 @@
 		"linebreak-style": ["error", "windows"],
 		"indent": ["error", "tab"],
 		"no-tabs": 0,
-		"operator-linebreak": 0
+		"operator-linebreak": 0,
+		"object-curly-newline": 0,
+		"comma-dangle": 0
 	}
 }

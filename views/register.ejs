@@ -16,21 +16,51 @@
 	<body>
 		<div id="nav-placeholder"></div>
 
+		<iframe name="redirectframe" id="redirectframe" style="display: none"></iframe>
+
 		<div class="row my-auto">
 			<div class="col-sm-4 mx-auto" id="single-centered-div">
 				<h3>Registration</h3>
-				<form>
+				<form action="/api/create-user" method="POST" id="register-form" target="redirectframe">
+					<div class="form-group">
+						<label for="Nickname">Nickname</label>
+						<input
+							class="form-control"
+							type="text"
+							name="nickname"
+							id="nickname"
+							placeholder="Enter a nickname here"
+						/>
+					</div>
 					<div class="form-group">
 						<label for="E-mail">E-mail address</label>
-						<input class="form-control" type="text" placeholder="Enter your e-mail address here" />
+						<input
+							class="form-control"
+							type="text"
+							name="email"
+							id="email"
+							placeholder="Enter your e-mail address here"
+						/>
 					</div>
 					<div class="form-group">
 						<label for="Password">Password</label>
-						<input class="form-control" type="password" placeholder="Enter your password here" />
+						<input
+							class="form-control"
+							type="password"
+							name="password"
+							id="password"
+							placeholder="Enter your password here"
+						/>
 					</div>
 					<div class="form-group">
 						<label for="Password Confirmation">Confirm Password</label>
-						<input class="form-control" type="password" placeholder="Confirm your password" />
+						<input
+							class="form-control"
+							type="password"
+							name="confirm"
+							id="confirm"
+							placeholder="Confirm your password"
+						/>
 					</div>
 					<div class="text-center">
 						<button class="btn btn-info button-shadow" type="submit">Submit</button>

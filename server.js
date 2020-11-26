@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const bodyParser = require('body-parser');
 const db = require('./db');
 
 // Specify the port
@@ -17,6 +18,9 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Specify static path
 app.use(express.static(path.join(__dirname, 'resources')));
 
@@ -29,7 +33,6 @@ app.get('/users', async (req, res) => {
 });
 
 app.get('/home', (req, res) => {
-	// const pageData = {};
 	res.render('home');
 });
 
@@ -39,6 +42,20 @@ app.get('/login', (req, res) => {
 
 app.get('/register', (req, res) => {
 	res.render('register');
+});
+
+// Create user
+app.post('/api/create-user', async (req, res) => {
+	const { nickname, password, email } = req.body;
+	const response = await db.addUser(req.body);
+	res.json(response);
+});
+
+// Find by email
+app.post('/api/user-by-email', async (req, res) => {
+	const user = await db.findUserByEmail(req.params.email);
+	const data = { retrievedUsers: user };
+	res.json(data);
 });
 
 app.listen(port, () => {

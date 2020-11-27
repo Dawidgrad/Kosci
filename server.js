@@ -45,14 +45,14 @@ app.get('/register', (req, res) => {
 });
 
 // Create user
-app.post('/api/create-user', async (req, res) => {
+app.post('/api/user', async (req, res) => {
 	const { nickname, password, email } = req.body;
-	const response = await db.addUser(req.body);
-	res.json(response);
+	const response = await db.addUser({ nickname, password, email });
+	res.json(response).send();
 });
 
 // Find by email
-app.post('/api/user-by-email', async (req, res) => {
+app.post('/api/user', async (req, res) => {
 	const user = await db.findUserByEmail(req.params.email);
 	const data = { retrievedUsers: user };
 	res.json(data);

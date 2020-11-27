@@ -1,38 +1,39 @@
 {
-  "name": "kosci",
-  "version": "1.0.0",
-  "description": "Dice game named \"Kosci\"",
-  "main": "server.js",
-  "scripts": {
-    "test": "jest",
-    "start": "node server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Dawidgrad/Kosci.git"
-  },
-  "author": "Dawid Grad",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Dawidgrad/Kosci/issues"
-  },
-  "homepage": "https://github.com/Dawidgrad/Kosci#readme",
-  "dependencies": {
-    "bcrypt": "^5.0.0",
-    "body-parser": "^1.19.0",
-    "cypress": "^5.6.0",
-    "ejs": "^3.1.5",
-    "express": "^4.17.1",
-    "express-ejs-layouts": "^2.5.0",
-    "jest": "^26.6.3",
-    "mongodb": "^3.6.3",
-    "mongoose": "^5.10.14",
-    "socket.io": "^3.0.1"
-  },
-  "devDependencies": {
-    "eslint": "^7.13.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1",
-    "nodemon": "^2.0.6"
-  }
+	"name": "kosci",
+	"version": "1.0.0",
+	"description": "Dice game named \"Kosci\"",
+	"main": "server.js",
+	"scripts": {
+		"test": "jest",
+		"start": "node server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Dawidgrad/Kosci.git"
+	},
+	"author": "Dawid Grad",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Dawidgrad/Kosci/issues"
+	},
+	"homepage": "https://github.com/Dawidgrad/Kosci#readme",
+	"dependencies": {
+		"bcrypt": "^5.0.0",
+		"body-parser": "^1.19.0",
+		"cypress": "^5.6.0",
+		"ejs": "^3.1.5",
+		"express": "^4.17.1",
+		"express-ejs-layouts": "^2.5.0",
+		"jest": "^26.6.3",
+		"mongodb": "^3.6.3",
+		"mongoose": "^5.10.14",
+		"socket.io": "^3.0.1",
+		"dotenv": "^8.2.0"
+	},
+	"devDependencies": {
+		"eslint": "^7.13.0",
+		"eslint-config-airbnb-base": "^14.2.1",
+		"eslint-plugin-import": "^2.22.1",
+		"nodemon": "^2.0.6"
+	}
 }

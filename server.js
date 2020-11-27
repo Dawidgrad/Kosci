@@ -7,12 +7,19 @@ const db = require('./db');
 
 const indexRouter = require('./routes/index');
 
+if (process.env.NODE_ENV !== 'production') {
+	// eslint-disable-next-line global-require
+	require('dotenv').config();
+}
+
 // Specify the port
 const port = process.env.PORT || 9000;
 
 // Connect MongoDB
-const MONGODB_URI = 'mongodb+srv://dawidgrad:YubiYubi@university.vbira.mongodb.net/koscidb?retryWrites=true&w=majority';
-mongoose.connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URL, { useUnifiedTopology: true, useNewUrlParser: true });
+const dbConnection = mongoose.connection;
+dbConnection.on('error', (error) => console.error(error));
+dbConnection.once('open', () => console.log('Connected to MongoDB'));
 
 // Initialise ExpressJs
 const app = express();

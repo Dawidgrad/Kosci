@@ -26,13 +26,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'resources')));
 
 // Routes
-// app.get('/users', async (req, res) => {
-// 	const users = await db.listAllUsers();
-// 	const data = { retrievedUsers: users };
-// 	res.json(data);
-// 	// res.render('pagename', data) in case of a view - ejs file
-// });
-
 app.get('/home', (req, res) => {
 	res.render('home');
 });
@@ -58,11 +51,22 @@ app.post('/api/users', async (req, res) => {
 	}
 });
 
-// Find by email
-app.post('/api/users/find', async (req, res) => {
-	const user = await db.findUserByEmail(req.params.email);
-	const data = { retrievedUsers: user };
-	res.json(data);
+app.post('/api/users/login', async (req, res) => {
+	const user = await db.findUserByEmail(req.body.email);
+	if (user === undefined) {
+		res.status(400).send('Cannot find user');
+	}
+
+	try {
+		// Prevents timing attacks
+		if (await bcrypt.compare(req.body.password, user.password)) {
+			res.send('Success');
+		} else {
+			res.send('Not Allowed');
+		}
+	} catch {
+		res.status(500).send();
+	}
 });
 
 app.listen(port, () => {

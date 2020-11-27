@@ -10,14 +10,9 @@ const userSchema = new mongoose.Schema(
 const User = mongoose.model('user', userSchema);
 
 // Functions
-async function listAllUsers() {
-	const users = await User.find({});
-	return users;
-}
-
 async function findUserByEmail(userEmail) {
 	const user = await User.find({ email: userEmail });
-	return user;
+	return user[0];
 }
 
 async function addUser(data) {
@@ -36,7 +31,6 @@ async function addUser(data) {
 }
 
 // Exports
-module.exports.listAllUsers = listAllUsers;
 module.exports.findUserByEmail = findUserByEmail;
 module.exports.addUser = addUser;
 module.exports.User = User;

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const db = require('./db');
 
 // Specify the port
@@ -25,12 +26,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'resources')));
 
 // Routes
-app.get('/users', async (req, res) => {
-	const users = await db.listAllUsers();
-	const data = { retrievedUsers: users };
-	res.json(data);
-	// res.render('pagename', data) in case of a view - ejs file
-});
+// app.get('/users', async (req, res) => {
+// 	const users = await db.listAllUsers();
+// 	const data = { retrievedUsers: users };
+// 	res.json(data);
+// 	// res.render('pagename', data) in case of a view - ejs file
+// });
 
 app.get('/home', (req, res) => {
 	res.render('home');
@@ -45,14 +46,20 @@ app.get('/register', (req, res) => {
 });
 
 // Create user
-app.post('/api/user', async (req, res) => {
-	const { nickname, password, email } = req.body;
-	const response = await db.addUser({ nickname, password, email });
-	res.json(response).send();
+app.post('/api/users', async (req, res) => {
+	try {
+		const salt = await bcrypt.genSalt();
+		const hashedPassword = await bcrypt.hash(req.body.password, salt);
+		const { nickname, email } = req.body;
+		const response = await db.addUser({ nickname, password: hashedPassword, email });
+		res.json(response).send();
+	} catch {
+		res.status(500).send();
+	}
 });
 
 // Find by email
-app.post('/api/user', async (req, res) => {
+app.post('/api/users/find', async (req, res) => {
 	const user = await db.findUserByEmail(req.params.email);
 	const data = { retrievedUsers: user };
 	res.json(data);

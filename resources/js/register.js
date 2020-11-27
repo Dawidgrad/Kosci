@@ -37,7 +37,7 @@ $(() => {
 					email: 'Please provide a valid email',
 				},
 				password: {
-					required: 'Please provide a valid password',
+					required: 'Please provide a password',
 					passwordrules:
 						'The password must contain at least: 8 characters, 1 uppercase, 1 lowercase, 1 number',
 				},

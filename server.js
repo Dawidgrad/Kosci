@@ -61,6 +61,7 @@ app.post('/api/users/login', async (req, res) => {
 		// Prevents timing attacks
 		if (await bcrypt.compare(req.body.password, user.password)) {
 			res.send('Success');
+			console.log('hihihoho');
 		} else {
 			res.send('Not Allowed');
 		}

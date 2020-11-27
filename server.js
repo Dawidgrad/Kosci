@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const db = require('./db');
 
+const indexRouter = require('./routes/index');
+
 // Specify the port
 const port = process.env.PORT || 9000;
 
@@ -15,9 +17,10 @@ mongoose.connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true 
 // Initialise ExpressJs
 const app = express();
 
-// Set the view engine
+// Set the view engine and layouts
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('layout', 'layouts/layout');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,6 +29,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'resources')));
 
 // Routes
+app.use('/', indexRouter);
+
 app.get('/home', (req, res) => {
 	res.render('home');
 });
@@ -61,7 +66,6 @@ app.post('/api/users/login', async (req, res) => {
 		// Prevents timing attacks
 		if (await bcrypt.compare(req.body.password, user.password)) {
 			res.send('Success');
-			console.log('hihihoho');
 		} else {
 			res.send('Not Allowed');
 		}

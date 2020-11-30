@@ -27,3 +27,7 @@ div.wrap {
 	margin-top: 10%;
 	margin-bottom: auto;
 }
+
+.navbar-item {
+	margin-left: 10px;
+}

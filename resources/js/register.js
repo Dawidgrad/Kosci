@@ -1,6 +1,4 @@
 $(() => {
-	$('#nav-placeholder').load('/html/nav.html');
-
 	$.validator.methods.passwordrules = function (value, element) {
 		return this.optional(element) || /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/.test(value);
 	};

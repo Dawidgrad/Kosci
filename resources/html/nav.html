@@ -2,8 +2,14 @@
 	<!-- Dice logo -->
 	<!-- <a class="navbar-brand brand"><span class="oi oi-shield"></span></a> -->
 	<div class="collapse navbar-collapse navigation-panel">
-		<a class="btn btn-info navbar-btn" id="loginButton">Log-in</a>
-		<a class="btn btn-info navbar-btn" id="registerButton">Register</a>
-		<a class="btn btn-info navbar-btn hidden-element" id="logoutButton">Log out</a>
+		<form action="/login" method="GET">
+			<a href="/views/" class="btn btn-info navbar-btn" id="loginButton">Log-in</a>
+		</form>
+		<form action="register" method="GET">
+			<a class="btn btn-info navbar-btn" id="registerButton">Register</a>
+		</form>
+		<form action="/api/users/logout" method="POST">
+			<button type="submit" class="btn btn-info navbar-btn hidden-element" id="logoutButton">Log out</button>
+		</form>
 	</div>
 </nav>

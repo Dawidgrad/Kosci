@@ -1,6 +1,4 @@
 $(() => {
-	$('#nav-placeholder').load('/html/nav.html');
-
 	if ($('#login-form').length) {
 		$('#login-form').validate({
 			rules: {

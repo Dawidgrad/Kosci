@@ -32,6 +32,7 @@ router.post('/new', async (req, res) => {
 		const { nickname, email } = req.body;
 		const response = await addUser({ nickname, password: hashedPassword, email });
 		res.json(response).send();
+		res.end();
 	} catch {
 		res.status(500).send();
 	}
@@ -45,9 +46,7 @@ router.post('/auth', async (req, res) => {
 	}
 
 	try {
-		// Prevents timing attacks
 		if (await bcrypt.compare(req.body.password, user.password)) {
-			console.log('sdisamdoiasndasndndianj');
 			req.session.loggedIn = true;
 			req.session.email = req.body.email;
 			res.redirect('/home');
@@ -58,6 +57,15 @@ router.post('/auth', async (req, res) => {
 	} catch {
 		res.status(500).send();
 	}
+});
+
+// Log out the user
+router.get('/logout', async (req, res) => {
+	if (req.session.loggedIn) {
+		req.session.loggedIn = false;
+		res.redirect('/login');
+	}
+	res.end();
 });
 
 module.exports = router;

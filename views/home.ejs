@@ -1,5 +1,7 @@
+<!DOCTYPE html>
 <html>
 	<head>
+		<title>Kosci Home</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="/css/shared.css" />
 		<link
@@ -9,11 +11,22 @@
 			crossorigin="anonymous"
 		/>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js"></script>
 		<script src="/js/home.js"></script>
 	</head>
 	<body>
-		<div id="nav-placeholder"></div>
-
-		<p id="queryResult"></p>
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+			<a class="navbar-brand" href="/">Dice</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item">
+						<a class="navbar-item navbar-btn btn-info btn" href="/api/users/logout">Log-out</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
 	</body>
 </html>

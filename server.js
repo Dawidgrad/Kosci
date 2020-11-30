@@ -8,6 +8,7 @@ const usersRouter = require('./routes/users');
 const homeRouter = require('./routes/home');
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
+const session = require('express-session');
 
 if (process.env.NODE_ENV !== 'production') {
 	// eslint-disable-next-line global-require
@@ -33,6 +34,8 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(session({ secret: process.env.SESSION_SECRET }));
 
 // Specify static path
 app.use(express.static(path.join(__dirname, 'resources')));

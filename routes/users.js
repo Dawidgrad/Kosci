@@ -1,11 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const model = require('../models/user');
+const User = require('../models/user');
 
 const router = express.Router();
 
 async function findUserByEmail(userEmail) {
-	const user = await model.findOne({ email: userEmail });
+	const user = await User.findOne({ email: userEmail }).exec();
 	return user;
 }
 
@@ -14,7 +14,7 @@ async function addUser(data) {
 	user.wins = 0;
 	user.losses = 0;
 
-	const newUser = new model.User(user);
+	const newUser = new User(user);
 	newUser.save((error) => {
 		if (error) {
 			console.log('Could not add the user');
@@ -37,8 +37,8 @@ router.post('/new', async (req, res) => {
 	}
 });
 
-// Login user
-router.post('/login', async (req, res) => {
+// Authenticate user
+router.post('/auth', async (req, res) => {
 	const user = await findUserByEmail(req.body.email);
 	if (user === undefined) {
 		res.status(400).send('Cannot find user');
@@ -47,10 +47,14 @@ router.post('/login', async (req, res) => {
 	try {
 		// Prevents timing attacks
 		if (await bcrypt.compare(req.body.password, user.password)) {
-			res.send('Success');
+			console.log('sdisamdoiasndasndndianj');
+			req.session.loggedIn = true;
+			req.session.email = req.body.email;
+			res.redirect('/home');
 		} else {
 			res.send('Not Allowed');
 		}
+		res.end();
 	} catch {
 		res.status(500).send();
 	}

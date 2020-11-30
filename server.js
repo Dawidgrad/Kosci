@@ -29,7 +29,7 @@ const app = express();
 // Set the view engine and layouts
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('layout', 'layouts/layout');
+// app.set('layout', 'layouts/layout');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

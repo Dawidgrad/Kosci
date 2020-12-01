@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
 // Authenticate user
 router.post('/', async (req, res) => {
 	const user = await userController.findUserByEmail(req.body.email);
-	if (user === undefined) {
+	if (user === null) {
 		const data = { error: 'Incorrect user credentials!' };
 		res.render('login', data);
 	}

@@ -5,7 +5,8 @@
 	"main": "server.js",
 	"scripts": {
 		"test": "jest",
-		"start": "node server.js"
+		"start": "node server.js",
+		"cypress:open": "cypress open"
 	},
 	"repository": {
 		"type": "git",

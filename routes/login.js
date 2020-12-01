@@ -16,7 +16,8 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
 	const user = await userController.findUserByEmail(req.body.email);
 	if (user === undefined) {
-		res.status(400).send('Cannot find user');
+		const data = { error: 'Incorrect user credentials!' };
+		res.render('login', data);
 	}
 
 	try {
@@ -27,7 +28,6 @@ router.post('/', async (req, res) => {
 		} else {
 			const data = { error: 'Incorrect user credentials!' };
 			res.render('login', data);
-			// res.redirect('/login');
 		}
 	} catch {
 		res.status(500).send();

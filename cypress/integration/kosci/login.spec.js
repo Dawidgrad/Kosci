@@ -2,6 +2,6 @@
 
 describe('Login test', () => {
 	it('First', () => {
-		expect(true).to.equal(true);
+		cy.visit('www.google.com');
 	});
 });

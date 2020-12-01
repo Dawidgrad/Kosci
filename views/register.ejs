@@ -32,12 +32,16 @@
 			</div>
 		</nav>
 
-		<iframe name="redirectframe" id="redirectframe" style="display: none"></iframe>
+		<% if (locals.message) { %>
+		<div class="alert alert-success" role="alert"><%= locals.message %></div>
+		<% } %> <% if (locals.error) { %>
+		<div class="alert alert-danger" role="alert"><%= locals.error %></div>
+		<% } %>
 
 		<div class="row my-auto">
 			<div class="col-sm-4 mx-auto" id="single-centered-div">
 				<h3>Registration</h3>
-				<form action="/api/users/new" method="POST" id="register-form" target="redirectframe">
+				<form action="/register" method="POST" id="register-form">
 					<div class="form-group">
 						<label for="Nickname">Nickname</label>
 						<input class="form-control" type="text" name="nickname" id="nickname" />

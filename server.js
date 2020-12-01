@@ -4,10 +4,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const homeRouter = require('./routes/home');
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
+const logoutRouter = require('./routes/logout');
 const session = require('express-session');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -41,10 +41,10 @@ app.use(session({ secret: process.env.SESSION_SECRET }));
 app.use(express.static(path.join(__dirname, 'resources')));
 
 app.use('/', indexRouter);
-app.use('/api/users', usersRouter);
 app.use('/home', homeRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/logout', logoutRouter);
 
 app.listen(port, () => {
 	console.log(`Server listening on ${port}`);

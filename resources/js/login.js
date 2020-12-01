@@ -1,8 +1,4 @@
 $(() => {
-	if ($('#status').text() !== '') {
-		alert($('#status').text());
-	}
-
 	if ($('#login-form').length) {
 		$('#login-form').validate({
 			rules: {

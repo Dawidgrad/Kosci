@@ -31,3 +31,8 @@ div.wrap {
 .navbar-item {
 	margin-left: 10px;
 }
+
+.invisible {
+	display: none;
+	visibility: hidden;
+}

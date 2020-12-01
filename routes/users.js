@@ -9,6 +9,11 @@ async function findUserByEmail(userEmail) {
 	return user;
 }
 
+async function findUserByNickname(userNickname) {
+	const user = await User.findOne({ nickname: userNickname }).exec();
+	return user;
+}
+
 async function addUser(data) {
 	const user = data;
 	user.wins = 0;
@@ -27,12 +32,16 @@ async function addUser(data) {
 // Create user
 router.post('/new', async (req, res) => {
 	try {
-		const salt = await bcrypt.genSalt();
-		const hashedPassword = await bcrypt.hash(req.body.password, salt);
-		const { nickname, email } = req.body;
-		const response = await addUser({ nickname, password: hashedPassword, email });
-		res.json(response).send();
-		res.end();
+		if ((await findUserByEmail(req.body.email)) || (await findUserByNickname(req.body.nickname))) {
+			console.log('User already exists');
+		} else {
+			const salt = await bcrypt.genSalt();
+			const hashedPassword = await bcrypt.hash(req.body.password, salt);
+			const { nickname, email } = req.body;
+			const response = await addUser({ nickname, password: hashedPassword, email });
+			res.json(response).send();
+			res.end();
+		}
 	} catch {
 		res.status(500).send();
 	}
@@ -51,9 +60,10 @@ router.post('/auth', async (req, res) => {
 			req.session.email = req.body.email;
 			res.redirect('/home');
 		} else {
-			res.send('Not Allowed');
+			const data = { errormessage: 'Wrong user details!' };
+			res.render('login', data);
+			// res.redirect('/login');
 		}
-		res.end();
 	} catch {
 		res.status(500).send();
 	}

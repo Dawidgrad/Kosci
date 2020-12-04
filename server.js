@@ -8,6 +8,8 @@ const homeRouter = require('./routes/home');
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
 const logoutRouter = require('./routes/logout');
+const gameRouter = require('./routes/game');
+
 const session = require('express-session');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -45,6 +47,7 @@ app.use('/home', homeRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/logout', logoutRouter);
+app.use('/game', gameRouter);
 
 app.listen(port, () => {
 	console.log(`Server listening on ${port}`);

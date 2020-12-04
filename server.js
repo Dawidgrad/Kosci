@@ -32,7 +32,6 @@ const app = express();
 // Set the view engine and layouts
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-// app.set('layout', 'layouts/layout');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,6 +48,9 @@ app.use('/register', registerRouter);
 app.use('/logout', logoutRouter);
 app.use('/game', gameRouter);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
 	console.log(`Server listening on ${port}`);
 });
+
+const io = require('socket.io')(server);
+app.set('io', io);

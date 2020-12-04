@@ -1,4 +1,5 @@
 $(() => {
-	// Request the data
-	// Update the result paragraph
+	const socket = io();
+
+	socket.emit('join server', 'randomusernamefornowhehehe');
 });

@@ -2,15 +2,30 @@
 	height: 75px;
 	border: 3px solid #17a2b8;
 	border-radius: 25px;
-	background-color: #1fdefc;
-	margin: 1% 10% 1% 10%;
+	background-color: #bce3e9;
+	margin: 1% 0% 1% 0%;
 	padding: 1%;
 }
 
-#createRoom {
-	float: right;
+.container {
+	margin-top: 3%;
+	background-color: white;
+	box-shadow: 10px 5px 5px gray;
+	border-radius: 25px;
+	padding: 10px 20px 10px 20px;
 }
 
-h1 {
-	float: left;
+#createRoom {
+	height: 100%;
+	padding: 15px 20px;
+	text-align: center;
+}
+
+h2 {
+	text-align: center;
+}
+
+.button-shadow {
+	box-shadow: 5px 2px 2px gray;
+	border-radius: 10px;
 }

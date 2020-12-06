@@ -9,13 +9,13 @@ router.get('/', (req, res) => {
 	if (req.session.loggedIn) {
 		res.render('game');
 		const io = res.app.get('io');
-		setUpListeners(io);
+		setUpSocketListeners(io);
 	} else {
 		res.redirect('/login');
 	}
 });
 
-function setUpListeners(io) {
+function setUpSocketListeners(io) {
 	if (listenersSetUp == false) {
 		io.on('connection', (socket) => {
 			socket.on('create room', async (roomSize) => {

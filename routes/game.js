@@ -29,12 +29,15 @@ function setUpSocketListeners(io) {
 				console.log(socket.rooms);
 			});
 
-			socket.on('start game', () => {
+			socket.on('start game', async () => {
 				const roomSet = socket.rooms;
 				const roomName = [...roomSet][roomSet.size - 1];
+				await roomController.updateRoomProgress(roomName, true);
 				io.in(roomName).emit('game started');
 			});
 		});
+
+		listenersSetUp = true;
 	}
 }
 

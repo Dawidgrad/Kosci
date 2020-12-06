@@ -1,4 +1,5 @@
 const express = require('express');
+const roomController = require('../controllers/room_controller');
 
 const router = express.Router();
 
@@ -17,10 +18,12 @@ router.get('/', (req, res) => {
 function setUpSocketListeners(io) {
 	if (listenersSetUp == false) {
 		io.on('connection', (socket) => {
-			socket.on('join server', (username) => {
-				console.log(`${username} joined the server`);
+			socket.on('get room list', async () => {
+				const rooms = await roomController.findAllRooms();
+				socket.emit('update room list', rooms);
 			});
 		});
+
 		listenersSetUp = true;
 	}
 }

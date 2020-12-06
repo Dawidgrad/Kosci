@@ -5,9 +5,21 @@ async function findAllRooms() {
 	return rooms;
 }
 
-async function findRoomById(id) {
-	const room = await Room.findOne({ id: id }).exec();
+async function findRoomByName(name) {
+	const room = await Room.findOne({ name: name }).exec();
 	return room;
+}
+
+async function updateRoomProgress(name, progress) {
+	const room = await findRoomByName(name);
+	room.inProgress = progress;
+	room.save((error) => {
+		if (error) {
+			console.log('Could not update room status');
+		} else {
+			console.log('Successfully updated room status!');
+		}
+	});
 }
 
 function generateId() {
@@ -17,12 +29,12 @@ function generateId() {
 	return S4() + S4();
 }
 
-async function createRoom(roomSize) {
+async function createRoom() {
 	const newId = generateId();
 	const data = {
-		id: newId,
+		name: newId,
 		participants: 1,
-		size: roomSize,
+		inProgress: false,
 	};
 
 	const newRoom = new Room(data);
@@ -36,5 +48,7 @@ async function createRoom(roomSize) {
 	return newId;
 }
 
-module.exports.findRoomById = findRoomById;
+module.exports.findAllRooms = findAllRooms;
+module.exports.findRoomByName = findRoomByName;
 module.exports.createRoom = createRoom;
+module.exports.updateRoomProgress = updateRoomProgress;

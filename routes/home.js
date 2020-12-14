@@ -7,7 +7,8 @@ let listenersSetUp = false;
 
 router.get('/', (req, res) => {
 	if (req.session.loggedIn) {
-		res.render('home');
+		const data = { nickname: req.session.nickname };
+		res.render('home', data);
 		io = res.app.get('io');
 		setUpSocketListeners(io);
 	} else {

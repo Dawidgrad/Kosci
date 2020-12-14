@@ -24,6 +24,7 @@ router.post('/', async (req, res) => {
 		if (await bcrypt.compare(req.body.password, user.password)) {
 			req.session.loggedIn = true;
 			req.session.email = req.body.email;
+			req.session.nickname = user.nickname;
 			res.redirect('/home');
 		} else {
 			const data = { error: 'Incorrect user credentials!' };

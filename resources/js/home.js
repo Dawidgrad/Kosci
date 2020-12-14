@@ -23,6 +23,7 @@ $(() => {
 	});
 
 	$('#createRoom').click(() => {
+		socket.emit('new room created');
 		socket.disconnect();
 	});
 });

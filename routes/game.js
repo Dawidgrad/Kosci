@@ -1,5 +1,6 @@
 const express = require('express');
 const roomController = require('../controllers/room_controller');
+const rollController = require('../controllers/roll_controller');
 
 const router = express.Router();
 
@@ -33,8 +34,20 @@ function setUpSocketListeners(io) {
 				const roomSet = socket.rooms;
 				const roomName = [...roomSet][roomSet.size - 1];
 				await roomController.updateRoomProgress(roomName, true);
-				io.in(roomName).emit('game started');
+				const roll = await rollController.createRoll(roomName, socket.id);
+				io.in(roomName).emit('next roll', roll);
 			});
+
+			// data: roll = [1, 2, 5]
+			socket.on('roll dice', async (data) => {
+				const roomSet = socket.rooms;
+				const roomName = [...roomSet][roomSet.size - 1];
+				const roll = await rollController.updateRoll(roomName, socket.id, data.toRoll);
+				io.in(roomName).emit('next roll', roll);
+			});
+
+			// data:
+			socket.on('select score', () => {});
 		});
 
 		listenersSetUp = true;

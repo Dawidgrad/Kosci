@@ -15,9 +15,7 @@ async function updateRoomProgress(name, progress) {
 	room.inProgress = progress;
 	room.save((error) => {
 		if (error) {
-			console.log('Could not update room status');
-		} else {
-			console.log('Successfully updated room status!');
+			console.log('Could not update room status!');
 		}
 	});
 }
@@ -40,9 +38,7 @@ async function createRoom() {
 	const newRoom = new Room(data);
 	await newRoom.save((error) => {
 		if (error) {
-			console.log('Could not create the room');
-		} else {
-			console.log('Successfully created the room!');
+			console.log('Could not create the room!');
 		}
 	});
 	return newId;

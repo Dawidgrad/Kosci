@@ -20,7 +20,11 @@ async function createRoll(roomName, playerId) {
 	};
 
 	const newRoll = new Roll(roll);
-	newRoll.save();
+	newRoll.save((error) => {
+		if (error) {
+			console.log('Could not create roll!');
+		}
+	});
 
 	return newRoll;
 }
@@ -32,7 +36,11 @@ async function updateRoll(roomName, playerId, toRoll) {
 	dice = separateSelectedDice(dice, toRoll);
 
 	roll.update({ _id: roll._id }, { player: playerId, dice: dice });
-	roll.save();
+	roll.save((error) => {
+		if (error) {
+			console.log('Could not update roll!');
+		}
+	});
 
 	return roll;
 }
@@ -57,8 +65,7 @@ function updateDice(dice, toRoll) {
 	return newDice;
 }
 
-// Make sure that no die is overlapping using turf library
-// If two dice are overlapping, change one's coordinates
+// Ensure that the dice are not overlapping
 function separateDice(dice) {
 	const separatedDice = dice;
 
@@ -88,6 +95,7 @@ function separateDice(dice) {
 	return separatedDice;
 }
 
+// Ensure that selected dice are not overlapping
 function separateSelectedDice(dice, toRoll) {
 	const separatedDice = dice;
 
@@ -120,6 +128,7 @@ function separateSelectedDice(dice, toRoll) {
 	return separatedDice;
 }
 
+// Check if dies intersect using turf library
 function checkIntersection(dieA, dieB) {
 	const diePolygonA = helpers.polygon([
 		[

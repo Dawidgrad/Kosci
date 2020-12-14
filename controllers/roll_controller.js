@@ -1,4 +1,8 @@
 const Roll = require('../models/roll');
+const intersect = require('@turf/intersect').default;
+const helpers = require('@turf/helpers');
+
+const IMAGE_SIZE = 64;
 
 async function findRollByRoomName(roomName) {
 	const roll = await Roll.findOne({ roomName: roomName }).exec();
@@ -25,7 +29,7 @@ async function updateRoll(roomName, playerId, toRoll) {
 	const roll = await findRollByRoomName(roomName);
 
 	let dice = updateDice(roll.dice, toRoll);
-	dice = separateDice(dice);
+	dice = separateSelectedDice(dice, toRoll);
 
 	roll.update({ _id: roll._id }, { player: playerId, dice: dice });
 	roll.save();
@@ -53,25 +57,30 @@ function updateDice(dice, toRoll) {
 	return newDice;
 }
 
-// Make sure that no die is overlapping, if they do change position
+// Make sure that no die is overlapping using turf library
+// If two dice are overlapping, change one's coordinates
 function separateDice(dice) {
 	const separatedDice = dice;
 
 	while (true) {
-		let isSeparated = true;
+		let areSeparated = true;
 
+		// Compare each die against other dice
 		for (let i = 0; i < separatedDice.length; i++) {
 			for (let j = i + 1; j < separatedDice.length; j++) {
-				if (separatedDice[i].x >= separatedDice[j].x && separatedDice[i].x <= separatedDice[j].x + 64) {
-					if (separatedDice[i].y >= separatedDice[j].y && separatedDice[i].y <= separatedDice[j].y + 64) {
-						separatedDice[i].generatePosition();
-						isSeparated = false;
-					}
+				// Check if dice intersect
+				const intersection = checkIntersection(separatedDice[i], separatedDice[j]);
+
+				// If they intersect, generate new position
+				if (intersection !== null) {
+					areSeparated = false;
+					separatedDice[i] = new Die(separatedDice[i].side);
 				}
 			}
 		}
 
-		if (isSeparated == true) {
+		// Break if none of the dice are overlapping
+		if (areSeparated == true) {
 			break;
 		}
 	}
@@ -79,9 +88,71 @@ function separateDice(dice) {
 	return separatedDice;
 }
 
+function separateSelectedDice(dice, toRoll) {
+	const separatedDice = dice;
+
+	while (true) {
+		let areSeparated = true;
+
+		for (let i = 0; i < toRoll.length; i++) {
+			for (let j = 0; j < dice.length; j++) {
+				if (dice[toRoll[i]] === dice[j]) {
+					continue;
+				}
+
+				// Check if dice intersect
+				const intersection = checkIntersection(dice[toRoll[i]], dice[j]);
+
+				// If they intersect, generate new position
+				if (intersection !== null) {
+					areSeparated = false;
+					dice[toRoll[i]] = new Die(separatedDice[i].side);
+				}
+			}
+		}
+
+		// Break if none of the dice are overlapping
+		if (areSeparated == true) {
+			break;
+		}
+	}
+
+	return separatedDice;
+}
+
+function checkIntersection(dieA, dieB) {
+	const diePolygonA = helpers.polygon([
+		[
+			[dieA.x, dieA.y],
+			[dieA.x, dieA.y + IMAGE_SIZE],
+			[dieA.x + IMAGE_SIZE, dieA.y + IMAGE_SIZE],
+			[dieA.x + IMAGE_SIZE, dieA.y],
+			[dieA.x, dieA.y],
+		],
+	]);
+
+	const diePolygonB = helpers.polygon([
+		[
+			[dieB.x, dieB.y],
+			[dieB.x, dieB.y + IMAGE_SIZE],
+			[dieB.x + IMAGE_SIZE, dieB.y + IMAGE_SIZE],
+			[dieB.x + IMAGE_SIZE, dieB.y],
+			[dieB.x, dieB.y],
+		],
+	]);
+
+	// Check if the coordinates intersect
+	const intersection = intersect(diePolygonA, diePolygonB);
+	return intersection;
+}
+
 class Die {
-	constructor() {
-		this.roll();
+	constructor(side) {
+		if (side) {
+			this.side = side;
+		} else {
+			this.roll();
+		}
 		this.generatePosition();
 	}
 

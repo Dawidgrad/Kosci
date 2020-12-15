@@ -19,14 +19,15 @@ router.get('/', (req, res) => {
 function setUpSocketListeners(io) {
 	if (listenersSetUp == false) {
 		io.on('connection', (socket) => {
-			socket.on('create room', async (roomSize) => {
-				const name = await roomController.createRoom(roomSize);
+			socket.on('create room', async (nickname) => {
+				const name = await roomController.createRoom(nickname);
 				socket.join(name);
 				socket.emit('room created', name);
 			});
 
-			socket.on('join room', (name) => {
+			socket.on('join room', (name, nickname) => {
 				socket.join(name);
+				roomController.registerUser(name, nickname);
 				console.log(socket.rooms);
 			});
 
@@ -46,7 +47,6 @@ function setUpSocketListeners(io) {
 				io.in(roomName).emit('next roll', roll);
 			});
 
-			// data:
 			socket.on('select score', () => {});
 		});
 

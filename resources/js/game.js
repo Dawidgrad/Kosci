@@ -15,9 +15,9 @@ $(() => {
 
 	// Create room, unless joining existing one
 	if (urlParams.get('name') == '') {
-		socket.emit('create room');
+		socket.emit('create room', localStorage.nickname);
 	} else {
-		socket.emit('join room', urlParams.get('name'));
+		socket.emit('join room', urlParams.get('name'), localStorage.nickname);
 	}
 
 	$('#startGame').click(() => {

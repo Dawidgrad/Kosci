@@ -6,7 +6,7 @@ $(() => {
 	socket.on('update room list', (rooms) => {
 		for (let i = 0; i < rooms.length; i++) {
 			const name = rooms[i].name;
-			const participants = rooms[i].participants;
+			const participants = rooms[i].participants.length;
 			const status = rooms[i].inProgress ? 'In Progress' : 'Open';
 			const disabled = rooms[i].inProgress ? 'disabled' : '';
 

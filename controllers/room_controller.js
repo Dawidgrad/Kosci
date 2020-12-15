@@ -27,11 +27,11 @@ function generateId() {
 	return S4() + S4();
 }
 
-async function createRoom() {
+async function createRoom(nickname) {
 	const newId = generateId();
 	const data = {
 		name: newId,
-		participants: 1,
+		participants: [{ nickname: nickname }],
 		inProgress: false,
 	};
 
@@ -44,7 +44,21 @@ async function createRoom() {
 	return newId;
 }
 
+async function registerUser(roomName, nickname) {
+	const room = await findRoomByName(roomName);
+	const participants = room.participants;
+	participants.push({ nickname: nickname });
+
+	room.update({ _id: room._id }, { participants: participants });
+	room.save((error) => {
+		if (error) {
+			console.log('Could not update room!');
+		}
+	});
+}
+
 module.exports.findAllRooms = findAllRooms;
 module.exports.findRoomByName = findRoomByName;
 module.exports.createRoom = createRoom;
 module.exports.updateRoomProgress = updateRoomProgress;
+module.exports.registerUser = registerUser;

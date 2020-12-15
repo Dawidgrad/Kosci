@@ -20,7 +20,7 @@ async function updateScoreboard(playerName, roomName, scores) {
 
 async function createScoreboard(playerName, roomName) {
 	const data = {
-		playerName: playerName,
+		player: playerName,
 		roomName: roomName,
 	};
 
@@ -30,6 +30,7 @@ async function createScoreboard(playerName, roomName) {
 			console.log('Could not create the scoreboard');
 		}
 	});
+	return newScoreboard;
 }
 
 module.exports.findScoreboard = findScoreboard;

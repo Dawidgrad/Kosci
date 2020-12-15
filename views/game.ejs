@@ -46,164 +46,169 @@
 
 		<div class="container">
 			<div class="row">
-				<button class="btn-info btn col-sm-3 mx-auto game-state-button" id="rollDice">Roll dice</button>
-				<button class="btn-info btn col-sm-3 mx-auto game-state-button" id="startGame">Start game</button>
+				<button class="btn-info btn col-lg-3 mx-auto game-state-button" id="rollDice">Roll dice</button>
+				<button class="btn-info btn col-lg-3 mx-auto game-state-button" id="startGame">Start game</button>
 			</div>
 			<div class="row">
 				<div class="col-sm">
 					<canvas id="game-canvas" width="600" height="600"></canvas>
 				</div>
+
 				<div class="col-sm">
-					<table class="table-striped section-margin-bottom full-width" id="scoreboard">
-						<tr>
-							<td></td>
-							<td>Player 1</td>
-							<td>Player 2</td>
-							<td>Player 3</td>
-							<td>Player 4</td>
-						</tr>
-						<tr>
-							<td><b>Ones</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Twos</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Threes</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Fours</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Fives</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Sixes</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Pair</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Two Pairs</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Small Straight</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Large Straight</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Three of a kind</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Full House</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Four of a kind</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Kosci</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><b>Chance</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr id="sum">
-							<td><b>Sum</b></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</table>
-					<div class="btn-group">
-						<button
-							type="button"
-							class="btn btn-secondary dropdown-toggle"
-							data-toggle="dropdown"
-							aria-haspopup="true"
-							aria-expanded="false"
-						>
-							Action
-						</button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item">Ones</a>
-							<a class="dropdown-item">Twos</a>
-							<a class="dropdown-item">Threes</a>
-							<a class="dropdown-item">Fours</a>
-							<a class="dropdown-item">Fives</a>
-							<a class="dropdown-item">Sixes</a>
-							<a class="dropdown-item">Pair</a>
-							<a class="dropdown-item">Two Pairs</a>
-							<a class="dropdown-item">Small Straight</a>
-							<a class="dropdown-item">Large Straight</a>
-							<a class="dropdown-item">Three of a kind</a>
-							<a class="dropdown-item">Full House</a>
-							<a class="dropdown-item">Four of a kind</a>
-							<a class="dropdown-item">Kosci</a>
-							<a class="dropdown-item">Chance</a>
-						</div>
+					<div class="row" style="height: 90%">
+						<table class="table-striped section-margin-bottom full-width" id="scoreboard">
+							<!-- <tr>
+								<td></td>
+								<td>Player 1</td>
+								<td>Player 2</td>
+								<td>Player 3</td>
+								<td>Player 4</td>
+							</tr>
+							<tr>
+								<td><b>Ones</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Twos</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Threes</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Fours</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Fives</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Sixes</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Pair</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Two Pairs</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Small Straight</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Large Straight</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Three of a kind</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Full House</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Four of a kind</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Kosci</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td><b>Chance</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr id="sum">
+								<td><b>Sum</b></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr> -->
+						</table>
 					</div>
-					<button class="btn-info btn" id="selectScore">Select</button>
+					<div class="row">
+						<div class="btn-group col-lg-5 mx-auto">
+							<button
+								type="button"
+								class="btn btn-secondary dropdown-toggle"
+								data-toggle="dropdown"
+								aria-haspopup="true"
+								aria-expanded="false"
+							>
+								Action
+							</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item">Ones</a>
+								<a class="dropdown-item">Twos</a>
+								<a class="dropdown-item">Threes</a>
+								<a class="dropdown-item">Fours</a>
+								<a class="dropdown-item">Fives</a>
+								<a class="dropdown-item">Sixes</a>
+								<a class="dropdown-item">Pair</a>
+								<a class="dropdown-item">Two Pairs</a>
+								<a class="dropdown-item">Small Straight</a>
+								<a class="dropdown-item">Large Straight</a>
+								<a class="dropdown-item">Three of a kind</a>
+								<a class="dropdown-item">Full House</a>
+								<a class="dropdown-item">Four of a kind</a>
+								<a class="dropdown-item">Kosci</a>
+								<a class="dropdown-item">Chance</a>
+							</div>
+						</div>
+						<button class="btn-info btn col-lg-5 mx-auto" id="selectScore">Select</button>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -46,6 +46,10 @@ $(() => {
 		}
 	});
 
+	socket.on('update scoreboards', (scoreboards) => {
+		loadScoreboards(scoreboards);
+	});
+
 	async function getImage(side) {
 		let image;
 		const imageLoadPromise = new Promise((resolve) => {
@@ -55,5 +59,58 @@ $(() => {
 		});
 		await imageLoadPromise;
 		return image;
+	}
+
+	function loadScoreboards(scoreboards) {
+		// Get the list of scoreboard keys
+		const rowNames = {
+			ones: 'Ones',
+			twos: 'Twos',
+			threes: 'Threes',
+			fours: 'Fours',
+			fives: 'Fives',
+			sixes: 'Sixes',
+			pair: 'Pair',
+			twoPairs: 'Two Pairs',
+			smallStraight: 'Small Straight',
+			largeStraight: 'Large Straight',
+			threeKind: 'Three of a kind',
+			fullHouse: 'Full House',
+			fourKind: 'Four of a kind',
+			kosci: 'Kosci',
+			chance: 'Chance',
+		};
+
+		const keys = [];
+		Object.keys(rowNames).forEach((e) => {
+			keys.push(e);
+		});
+
+		const table = $('#scoreboard')[0];
+
+		// Add player names to the table
+		const row = table.insertRow();
+		row.insertCell();
+
+		for (const item in scoreboards) {
+			let score = row.insertCell();
+			score.innerHTML = `<b>${scoreboards[item]['player']}</b>`;
+		}
+
+		// Fill the scoreboard table with current scores
+		for (const key in keys) {
+			const row = table.insertRow();
+			let rowName = row.insertCell();
+			rowName.innerHTML = `<b>${rowNames[keys[key]]}</b>`;
+
+			for (const item in scoreboards) {
+				let score = row.insertCell();
+				if (scoreboards[item][key] == undefined) {
+					score.innerHTML = '';
+				} else {
+					score.innerHTML = scoreboards[item][key];
+				}
+			}
+		}
 	}
 });

@@ -1,6 +1,7 @@
 const express = require('express');
 const roomController = require('../controllers/room_controller');
 const rollController = require('../controllers/roll_controller');
+const scoreboardController = require('../controllers/scoreboard_controller');
 
 const router = express.Router();
 
@@ -35,6 +36,21 @@ function setUpSocketListeners(io) {
 				const roomSet = socket.rooms;
 				const roomName = [...roomSet][roomSet.size - 1];
 				await roomController.updateRoomProgress(roomName, true);
+
+				// Create scoreboards
+				const room = await roomController.findRoomByName(roomName);
+
+				scoreboards = [];
+				for (let i = 0; i < room.participants.length; i++) {
+					const newScoreboard = await scoreboardController.createScoreboard(
+						room.participants[i].nickname,
+						roomName
+					);
+					scoreboards.push(newScoreboard);
+				}
+				io.in(roomName).emit('update scoreboards', scoreboards);
+
+				// Generate first roll
 				const roll = await rollController.createRoll(roomName, socket.id);
 				io.in(roomName).emit('next roll', roll);
 			});
@@ -47,7 +63,9 @@ function setUpSocketListeners(io) {
 				io.in(roomName).emit('next roll', roll);
 			});
 
-			socket.on('select score', () => {});
+			socket.on('select score', () => {
+				socket.emit('update scoreboards', scoreboards);
+			});
 		});
 
 		listenersSetUp = true;

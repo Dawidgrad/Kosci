@@ -11,7 +11,21 @@
 			integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
 			crossorigin="anonymous"
 		/>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+			crossorigin="anonymous"
+		></script>
 		<script src="/js/game.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
 	</head>
@@ -40,7 +54,156 @@
 					<canvas id="game-canvas" width="600" height="600"></canvas>
 				</div>
 				<div class="col-sm">
-					<h2>Scoreboard placeholder</h2>
+					<table class="table-striped section-margin-bottom full-width" id="scoreboard">
+						<tr>
+							<td></td>
+							<td>Player 1</td>
+							<td>Player 2</td>
+							<td>Player 3</td>
+							<td>Player 4</td>
+						</tr>
+						<tr>
+							<td><b>Ones</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Twos</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Threes</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Fours</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Fives</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Sixes</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Pair</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Two Pairs</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Small Straight</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Large Straight</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Three of a kind</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Full House</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Four of a kind</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Kosci</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td><b>Chance</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr id="sum">
+							<td><b>Sum</b></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+					<div class="btn-group">
+						<button
+							type="button"
+							class="btn btn-secondary dropdown-toggle"
+							data-toggle="dropdown"
+							aria-haspopup="true"
+							aria-expanded="false"
+						>
+							Action
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item">Ones</a>
+							<a class="dropdown-item">Twos</a>
+							<a class="dropdown-item">Threes</a>
+							<a class="dropdown-item">Fours</a>
+							<a class="dropdown-item">Fives</a>
+							<a class="dropdown-item">Sixes</a>
+							<a class="dropdown-item">Pair</a>
+							<a class="dropdown-item">Two Pairs</a>
+							<a class="dropdown-item">Small Straight</a>
+							<a class="dropdown-item">Large Straight</a>
+							<a class="dropdown-item">Three of a kind</a>
+							<a class="dropdown-item">Full House</a>
+							<a class="dropdown-item">Four of a kind</a>
+							<a class="dropdown-item">Kosci</a>
+							<a class="dropdown-item">Chance</a>
+						</div>
+					</div>
+					<button class="btn-info btn" id="selectScore">Select</button>
 				</div>
 			</div>
 		</div>

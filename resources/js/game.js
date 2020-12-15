@@ -33,7 +33,7 @@ $(() => {
 	});
 
 	socket.on('next roll', async (data) => {
-		$('#message').html('Next roll');
+		$('#message').html(localStorage.nickname);
 
 		const canvas = document.getElementById('game-canvas');
 		const ctx = canvas.getContext('2d');

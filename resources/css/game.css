@@ -5,3 +5,18 @@
 #game-canvas {
 	border: 1px solid black;
 }
+
+table,
+th,
+td {
+	border: 1px solid black;
+}
+
+table {
+	height: 90%;
+	width: 100%;
+}
+
+#sum {
+	border: 2px solid black;
+}

@@ -5,12 +5,12 @@ $(() => {
 	const socket = io();
 
 	Images = {
-		1: '../../images/dice-1.png',
-		2: '../../images/dice-2.png',
-		3: '../../images/dice-3.png',
-		4: '../../images/dice-4.png',
-		5: '../../images/dice-5.png',
-		6: '../../images/dice-6.png',
+		1: '../../images/dice-1.PNG',
+		2: '../../images/dice-2.PNG',
+		3: '../../images/dice-3.PNG',
+		4: '../../images/dice-4.PNG',
+		5: '../../images/dice-5.PNG',
+		6: '../../images/dice-6.PNG',
 	};
 
 	// Create room, unless joining existing one

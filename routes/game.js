@@ -55,7 +55,6 @@ function setUpSocketListeners(io) {
 				io.in(roomName).emit('next roll', roll);
 			});
 
-			// data: roll = [1, 2, 5]
 			socket.on('roll dice', async (data) => {
 				const roomSet = socket.rooms;
 				const roomName = [...roomSet][roomSet.size - 1];
@@ -63,7 +62,9 @@ function setUpSocketListeners(io) {
 				io.in(roomName).emit('next roll', roll);
 			});
 
-			socket.on('select score', () => {
+			socket.on('submit roll', () => {
+				// Update scoreboard in the database
+
 				socket.emit('update scoreboards', scoreboards);
 			});
 		});

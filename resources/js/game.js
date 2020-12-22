@@ -31,6 +31,8 @@ $(() => {
 		chance: 'Chance',
 	};
 
+	let currentRoll;
+
 	// Create room, unless joining existing one
 	if (urlParams.get('name') == '') {
 		socket.emit('create room', localStorage.nickname);
@@ -47,12 +49,38 @@ $(() => {
 	});
 
 	$('#submitRoll').click(() => {
-		socket.emit('submit roll');
+		const selectedRow = $('#selectRow')[0].innerHTML;
+		const key = Object.keys(rowNames).find((key) => rowNames[key] === selectedRow);
+		if (key) {
+			const obj = {};
+			obj['row'] = key;
+			obj['nickname'] = localStorage.nickname;
+			socket.emit('submit roll', obj);
+		} else {
+			console.log('Select a row to submit the score');
+		}
 	});
 
 	$('.dropdown-menu').on('click', 'a', function () {
 		$('#selectRow:first-child').text($(this).text());
 		$('#selectRow:first-child').val($(this).text());
+	});
+
+	$('#game-canvas').click((e) => {
+		const x = e.offsetX;
+		const y = e.offsetY;
+		const imageWidth = 64;
+
+		for (let i = 0; i < currentRoll.length; i++) {
+			if (
+				x > currentRoll[i].x &&
+				x < currentRoll[i].x + imageWidth &&
+				y > currentRoll[i].y &&
+				y < currentRoll[i].y + imageWidth
+			) {
+				console.log('hello?');
+			}
+		}
 	});
 
 	socket.on('room created', (name) => {
@@ -66,6 +94,8 @@ $(() => {
 		const ctx = canvas.getContext('2d');
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+		currentRoll = data.dice;
+
 		for (let i = 0; i < data.dice.length; i++) {
 			const die = data.dice[i];
 			const image = await getImage(die.side);
@@ -74,6 +104,7 @@ $(() => {
 	});
 
 	socket.on('update scoreboards', (scoreboards) => {
+		console.log(scoreboards);
 		loadScoreboards(scoreboards);
 		updateRowSelection(scoreboards);
 	});
@@ -96,6 +127,9 @@ $(() => {
 			keys.push(e);
 		});
 
+		// CLear the scoreboard table
+		$('#scoreboard > tbody').html('');
+
 		const table = $('#scoreboard')[0];
 
 		// Add player names to the table
@@ -115,10 +149,10 @@ $(() => {
 
 			for (const item in scoreboards) {
 				let score = row.insertCell();
-				if (scoreboards[item][key] == undefined) {
+				if (scoreboards[item].scores[keys[key]] === undefined) {
 					score.innerHTML = '';
 				} else {
-					score.innerHTML = scoreboards[item][key];
+					score.innerHTML = scoreboards[item].scores[keys[key]];
 				}
 			}
 		}

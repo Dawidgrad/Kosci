@@ -1,26 +1,30 @@
 const Scoreboard = require('../models/scoreboard');
+const { options } = require('../routes/game');
 
-async function findScoreboard(playerName, roomName) {
-	const scoreboard = await Scoreboard.findOne({ playerName: playerName, roomName: roomName }).exec();
+async function findScoreboard(nickname, roomName) {
+	const scoreboard = await Scoreboard.findOne({ player: nickname, roomName: roomName }).exec();
 	return scoreboard;
 }
 
-async function updateScoreboard(playerName, roomName, scores) {
-	const scoreboard = await findScoreboard(playerName, roomName);
+async function findRoomScoreboards(roomName) {
+	const scoreboards = await Scoreboard.find({ roomName: roomName }).exec();
+	return scoreboards;
+}
 
-	scoreboard.update({ _id: scoreboard._id }, { scores: scores });
-	scoreboard.save((error) => {
+async function updateScoreboard(nickname, roomName, scores) {
+	const scoreboard = await findScoreboard(nickname, roomName);
+	scoreboard.scores = scores;
+
+	await scoreboard.save((error) => {
 		if (error) {
 			console.log('Could not update scoreboard!');
 		}
 	});
-
-	return scoreboard;
 }
 
-async function createScoreboard(playerName, roomName) {
+async function createScoreboard(nickname, roomName) {
 	const data = {
-		player: playerName,
+		player: nickname,
 		roomName: roomName,
 	};
 
@@ -34,5 +38,6 @@ async function createScoreboard(playerName, roomName) {
 }
 
 module.exports.findScoreboard = findScoreboard;
+module.exports.findRoomScoreboards = findRoomScoreboards;
 module.exports.updateScoreboard = updateScoreboard;
 module.exports.createScoreboard = createScoreboard;

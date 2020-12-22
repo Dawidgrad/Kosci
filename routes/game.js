@@ -62,10 +62,19 @@ function setUpSocketListeners(io) {
 				io.in(roomName).emit('next roll', roll);
 			});
 
-			socket.on('submit roll', () => {
-				// Update scoreboard in the database
+			socket.on('submit roll', async (data) => {
+				const roomSet = socket.rooms;
+				const roomName = [...roomSet][roomSet.size - 1];
 
-				socket.emit('update scoreboards', scoreboards);
+				// Update scoreboard
+				const scoreboard = await scoreboardController.findScoreboard(data.nickname, roomName);
+				scoreboard.scores[data.row] = 1; // Calculate score based on roll and row selected
+				await scoreboardController.updateScoreboard(data.nickname, roomName, scoreboard.scores);
+
+				// Get all scoreboards in the room
+				const roomScoreboards = await scoreboardController.findRoomScoreboards(roomName);
+
+				socket.emit('update scoreboards', roomScoreboards);
 			});
 		});
 

@@ -43,14 +43,13 @@ $(() => {
 	// Initialise canvas
 	const canvas = document.getElementById('game-canvas');
 	const ctx = canvas.getContext('2d');
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 	$('#startGame').click(() => {
 		socket.emit('start game');
 	});
 
 	$('#rollDice').click(() => {
-		socket.emit('roll dice', { toRoll: [1] });
+		socket.emit('roll dice', { diceToRoll: [1, 2] });
 	});
 
 	$('#submitRoll').click(() => {
@@ -58,7 +57,7 @@ $(() => {
 		const key = Object.keys(rowNames).find((key) => rowNames[key] === selectedRow);
 		if (key) {
 			const obj = {};
-			obj['row'] = key;
+			obj['rowToSubmit'] = key;
 			obj['nickname'] = localStorage.nickname;
 			socket.emit('submit roll', obj);
 		} else {
@@ -98,12 +97,14 @@ $(() => {
 		const scoreboards = gameState.scoreboards;
 		const currentPlayer = gameState.currentPlayer.nickname;
 		const rollsLeft = gameState.rollsLeft;
+		const roundCount = gameState.roundCount;
 
 		drawDice(roll);
 		loadScoreboards(scoreboards);
 		updateRowSelection(scoreboards);
-		$('#current-player').html(currentPlayer);
-		$('#rolls-left').html(rollsLeft);
+		$('#current-player').html(`Current turn: ${currentPlayer}`);
+		$('#rolls-left').html(`Rolls left ${rollsLeft}`);
+		$('#round-count').html(`Round ${roundCount}`);
 	});
 
 	socket.on('next roll', async (data) => {
@@ -116,6 +117,8 @@ $(() => {
 	});
 
 	async function drawDice(roll) {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 		for (let i = 0; i < roll.length; i++) {
 			const die = roll[i];
 			const image = await getImage(die.side);

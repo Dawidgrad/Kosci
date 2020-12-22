@@ -18,11 +18,14 @@ class RollingSystem {
 
 	// Reroll some of the dice
 	reroll(dice, diceToRoll) {
-		for (let i = 0; i < diceToRoll.length; i++) {
-			dice[diceToRoll[i]] = new Die();
+		if (diceToRoll) {
+			for (let i = 0; i < diceToRoll.length; i++) {
+				dice[diceToRoll[i]] = new Die();
+			}
+
+			dice = this.separateSelectedDice(dice, diceToRoll);
 		}
 
-		dice = this.separateSelectedDice(diceToRoll);
 		return dice;
 	}
 
@@ -54,22 +57,22 @@ class RollingSystem {
 	}
 
 	// Ensure that dice to roll are not overlapping
-	separateSelectedDice(dice, toRoll) {
+	separateSelectedDice(dice, diceToRoll) {
 		while (true) {
 			let areSeparated = true;
 
-			for (let i = 0; i < toRoll.length; i++) {
+			for (let i = 0; i < diceToRoll.length; i++) {
 				for (let j = 0; j < dice.length; j++) {
-					if (dice[toRoll[i]] === dice[j]) {
+					if (dice[diceToRoll[i]] === dice[j]) {
 						continue;
 					}
 
-					const intersection = this.checkIntersection(dice[toRoll[i]], dice[j]);
+					const intersection = this.checkIntersection(dice[diceToRoll[i]], dice[j]);
 
 					// If dice intersect, generate new position
 					if (intersection !== null) {
 						areSeparated = false;
-						dice[toRoll[i]] = new Die(dice[i].side);
+						dice[diceToRoll[i]] = new Die(dice[i].side);
 					}
 				}
 			}

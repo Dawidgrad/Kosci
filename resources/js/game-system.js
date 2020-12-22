@@ -13,8 +13,6 @@ class GameSystem {
 			this.players.push(player);
 		}
 
-		console.log(this.players);
-
 		// Create a scoreboard for each player
 		this.scoreboards = [];
 
@@ -41,8 +39,19 @@ class GameSystem {
 		}
 	}
 
-	// Submit a selected score with a current roll
-	submitRoll() {}
+	// Submit a score selected by the user with a current roll and switch to next player
+	submitRoll(rowToUpdate) {
+		// Find the scoreboard and update it
+		for (const item in this.scoreboards) {
+			console.log(this.scoreboards[item].player);
+			console.log(this.currentPlayer.nickname);
+			if (this.scoreboards[item].player === this.currentPlayer.nickname) {
+				this.scoreboards[item].scores[rowToUpdate] = 1;
+			}
+		}
+
+		this.nextPlayer();
+	}
 
 	// Returns current game state
 	getGameState() {
@@ -51,6 +60,7 @@ class GameSystem {
 			currentPlayer: this.currentPlayer,
 			scoreboards: this.scoreboards,
 			rollsLeft: this.rollsLeft,
+			roundCount: this.roundCount,
 		};
 		return gameState;
 	}
@@ -71,7 +81,7 @@ class GameSystem {
 		}
 
 		// Get new roll
-		this.reroll(this.rollSystem.newRoll(), []);
+		this.currentRoll = this.rollSystem.newRoll();
 	}
 
 	nextRound() {

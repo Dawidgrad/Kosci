@@ -99,7 +99,7 @@ function setUpSocketListeners(io) {
 				}
 
 				if (game) {
-					game.submitRoll();
+					game.submitRoll(data.rowToSubmit);
 					const gameState = game.getGameState();
 					io.in(roomName).emit('game state update', gameState);
 				} else {

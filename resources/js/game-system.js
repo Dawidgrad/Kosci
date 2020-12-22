@@ -71,12 +71,14 @@ class GameSystem {
 		// Get the next player
 		for (let i = 0; i < this.players.length; i++) {
 			if (this.players[i].nickname === this.currentPlayer.nickname) {
-				if (i + 1 === this.players.length) {
+				const nextIndex = i + 1;
+				if (nextIndex === this.players.length) {
 					this.currentPlayer = this.players[0];
 					this.nextRound();
 				} else {
 					this.currentPlayer = this.players[i + 1];
 				}
+				break;
 			}
 		}
 

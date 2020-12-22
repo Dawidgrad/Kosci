@@ -44,22 +44,6 @@ function setUpSocketListeners(io) {
 				game.start();
 				const gameState = game.getGameState();
 				io.in(roomName).emit('game state update', gameState);
-
-				// Create scoreboards
-
-				// scoreboards = [];
-				// for (let i = 0; i < room.participants.length; i++) {
-				// 	const newScoreboard = await scoreboardController.createScoreboard(
-				// 		room.participants[i].nickname,
-				// 		roomName
-				// 	);
-				// 	scoreboards.push(newScoreboard);
-				// }
-				// io.in(roomName).emit('update scoreboards', scoreboards);
-
-				// Generate first roll
-				// const roll = await rollController.createRoll(roomName, socket.id);
-				// io.in(roomName).emit('next roll', roll);
 			});
 
 			socket.on('roll dice', async (data) => {
@@ -81,9 +65,6 @@ function setUpSocketListeners(io) {
 				} else {
 					console.log('Could not find the game!');
 				}
-
-				// const roll = await rollController.updateRoll(roomName, socket.id, data.toRoll);
-				// io.in(roomName).emit('next roll', roll);
 			});
 
 			socket.on('submit roll', async (data) => {
@@ -105,14 +86,6 @@ function setUpSocketListeners(io) {
 				} else {
 					console.log('Could not find the game!');
 				}
-
-				// // Update scoreboard
-				// const scoreboard = await scoreboardController.findScoreboard(data.nickname, roomName);
-				// scoreboard.scores[data.row] = 1; // Calculate score based on roll and row selected
-				// await scoreboardController.updateScoreboard(data.nickname, roomName, scoreboard.scores);
-				// // Get all scoreboards in the room
-				// const roomScoreboards = await scoreboardController.findRoomScoreboards(roomName);
-				// socket.emit('update scoreboards', roomScoreboards);
 			});
 		});
 

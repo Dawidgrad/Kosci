@@ -4,6 +4,8 @@ $(() => {
 
 	const socket = io();
 
+	const IMAGE_WIDTH = 64;
+
 	const images = {
 		1: '../../images/dice-1.PNG',
 		2: '../../images/dice-2.PNG',
@@ -37,6 +39,7 @@ $(() => {
 	if (urlParams.get('name') == '') {
 		socket.emit('create room', localStorage.nickname);
 	} else {
+		$('#startGame').prop('disabled', true);
 		socket.emit('join room', urlParams.get('name'), localStorage.nickname);
 	}
 
@@ -45,11 +48,19 @@ $(() => {
 	const ctx = canvas.getContext('2d');
 
 	$('#startGame').click(() => {
+		$('#startGame').prop('disabled', true);
 		socket.emit('start game');
 	});
 
 	$('#rollDice').click(() => {
-		socket.emit('roll dice', { diceToRoll: [1, 2] });
+		// Check which dice are selected in order to keep them
+		const indices = [];
+		for (let i = 0; i < 5; i++) {
+			if (currentRoll[i].selected === false) {
+				indices.push(i);
+			}
+		}
+		socket.emit('roll dice', { diceToRoll: indices });
 	});
 
 	$('#submitRoll').click(() => {
@@ -73,18 +84,19 @@ $(() => {
 	$('#game-canvas').click((e) => {
 		const x = e.offsetX;
 		const y = e.offsetY;
-		const imageWidth = 64;
 
 		for (let i = 0; i < currentRoll.length; i++) {
 			if (
 				x > currentRoll[i].x &&
-				x < currentRoll[i].x + imageWidth &&
+				x < currentRoll[i].x + IMAGE_WIDTH &&
 				y > currentRoll[i].y &&
-				y < currentRoll[i].y + imageWidth
+				y < currentRoll[i].y + IMAGE_WIDTH
 			) {
-				console.log('hello?');
+				currentRoll[i].selected = !currentRoll[i].selected;
 			}
 		}
+
+		drawDice(currentRoll);
 	});
 
 	socket.on('room created', (name) => {
@@ -92,21 +104,46 @@ $(() => {
 	});
 
 	socket.on('game state update', (gameState) => {
-		const roll = gameState.currentRoll;
+		for (let i = 0; i < 5; i++) {
+			if (currentRoll) {
+				if (currentRoll[i].selected) {
+					gameState.currentRoll[i].selected = true;
+				} else {
+					gameState.currentRoll[i].selected = false;
+				}
+			} else {
+				gameState.currentRoll[i].selected = false;
+			}
+		}
+
+		currentRoll = gameState.currentRoll;
+
 		const scoreboards = gameState.scoreboards;
 		const currentPlayer = gameState.currentPlayer.nickname;
 		const rollsLeft = gameState.rollsLeft;
-		const roundCount = gameState.roundCount;
+		// const roundCount = gameState.roundCount;
 
-		drawDice(roll);
+		drawDice(currentRoll);
 		loadScoreboards(scoreboards);
 		updateRowSelection(scoreboards);
-		$('#current-player').html(`Current turn: ${currentPlayer}`);
-		$('#rolls-left').html(`Rolls left ${rollsLeft}`);
-		$('#round-count').html(`Round ${roundCount}`);
+		$('#game-state').html(
+			`<b>Current turn: ${currentPlayer}</br>Rolls left: ${rollsLeft}</b>` // </br>Round ${roundCount}
+		);
+
+		// Control UI
+		if (currentPlayer !== localStorage.nickname) {
+			$('#rollDice').prop('disabled', true);
+			$('#submitRoll').prop('disabled', true);
+		} else {
+			$('#rollDice').prop('disabled', false);
+			$('#submitRoll').prop('disabled', false);
+		}
 	});
 
 	socket.on('game ended', (gameState) => {
+		$('#rollDice').prop('disabled', true);
+		$('#submitRoll').prop('disabled', true);
+
 		// Show the winner alert
 		const winnerAlert = $('#winner-alert');
 		winnerAlert.removeClass('d-none');
@@ -120,6 +157,14 @@ $(() => {
 			const die = roll[i];
 			const image = await getImage(die.side);
 			ctx.drawImage(image, die.x, die.y);
+
+			if (die.selected) {
+				ctx.beginPath();
+				ctx.lineWidth = '3';
+				ctx.strokeStyle = 'red';
+				ctx.rect(die.x - 5, die.y - 5, IMAGE_WIDTH + 10, IMAGE_WIDTH + 10);
+				ctx.stroke();
+			}
 		}
 	}
 

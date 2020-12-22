@@ -1,9 +1,5 @@
-.game-state-button {
-	margin: 2%;
-}
-
-#game-canvas {
-	border: 1px solid black;
+body {
+	overflow-y: scroll;
 }
 
 table,
@@ -19,6 +15,14 @@ table {
 	margin-bottom: 3%;
 }
 
+.game-state-element {
+	margin: 1%;
+}
+
 #sum {
 	border: 2px solid black;
+}
+
+#game-state {
+	text-align: center;
 }

@@ -82,7 +82,11 @@ function setUpSocketListeners(io) {
 				if (game) {
 					game.submitRoll(data.rowToSubmit);
 					const gameState = game.getGameState();
-					io.in(roomName).emit('game state update', gameState);
+					if (gameState.gameEnded) {
+						io.in(roomName).emit('game ended', gameState);
+					} else {
+						io.in(roomName).emit('game state update', gameState);
+					}
 				} else {
 					console.log('Could not find the game!');
 				}

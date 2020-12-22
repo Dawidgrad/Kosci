@@ -1,6 +1,7 @@
 const RollingSystem = require('./rolling-system').RollingSystem;
 const Scoreboard = require('./scoreboard').Scoreboard;
 const Player = require('./player').Player;
+const MAX_ROUND = 15;
 
 class GameSystem {
 	constructor(name, players) {
@@ -21,6 +22,7 @@ class GameSystem {
 		}
 
 		this.rollSystem = new RollingSystem();
+		this.gameEnded = false;
 	}
 
 	// Initialise the state of the game
@@ -39,12 +41,9 @@ class GameSystem {
 		}
 	}
 
-	// Submit a score selected by the user with a current roll and switch to next player
+	// Submit a score selected by the user with a current roll and switch to the next player
 	submitRoll(rowToUpdate) {
-		// Find the scoreboard and update it
 		for (const item in this.scoreboards) {
-			console.log(this.scoreboards[item].player);
-			console.log(this.currentPlayer.nickname);
 			if (this.scoreboards[item].player === this.currentPlayer.nickname) {
 				this.scoreboards[item].scores[rowToUpdate] = 1;
 			}
@@ -61,6 +60,7 @@ class GameSystem {
 			scoreboards: this.scoreboards,
 			rollsLeft: this.rollsLeft,
 			roundCount: this.roundCount,
+			gameEnded: this.gameEnded,
 		};
 		return gameState;
 	}
@@ -90,12 +90,15 @@ class GameSystem {
 		this.roundCount += 1;
 
 		// Check if the round was the last one
-		if (this.roundCount > 15) {
+		if (this.roundCount > MAX_ROUND) {
 			this.finishGame();
 		}
 	}
 
-	finishGame() {}
+	finishGame() {
+		this.gameEnded = true;
+		this.winner = 'TemporaryWinner';
+	}
 }
 
 module.exports.GameSystem = GameSystem;

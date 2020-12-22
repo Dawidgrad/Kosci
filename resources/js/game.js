@@ -92,7 +92,6 @@ $(() => {
 	});
 
 	socket.on('game state update', (gameState) => {
-		console.log(gameState);
 		const roll = gameState.currentRoll;
 		const scoreboards = gameState.scoreboards;
 		const currentPlayer = gameState.currentPlayer.nickname;
@@ -107,13 +106,11 @@ $(() => {
 		$('#round-count').html(`Round ${roundCount}`);
 	});
 
-	socket.on('next roll', async (data) => {
-		$('#message').html(localStorage.nickname);
-	});
-
-	socket.on('update scoreboards', (scoreboards) => {
-		loadScoreboards(scoreboards);
-		updateRowSelection(scoreboards);
+	socket.on('game ended', (gameState) => {
+		// Show the winner alert
+		const winnerAlert = $('#winner-alert');
+		winnerAlert.removeClass('d-none');
+		winnerAlert.text(`${gameState.winner} has won the game!`);
 	});
 
 	async function drawDice(roll) {

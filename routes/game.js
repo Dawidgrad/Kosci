@@ -63,6 +63,7 @@ function setUpSocketListeners(io) {
 			});
 
 			socket.on('roll dice', async (data) => {
+				// Find the game that this socket participates in
 				const roomSet = socket.rooms;
 				const roomName = [...roomSet][roomSet.size - 1];
 				let game;
@@ -74,7 +75,7 @@ function setUpSocketListeners(io) {
 				}
 
 				if (game) {
-					game.reroll();
+					game.reroll(data.diceToRoll);
 					const gameState = game.getGameState();
 					io.in(roomName).emit('game state update', gameState);
 				} else {
@@ -86,6 +87,7 @@ function setUpSocketListeners(io) {
 			});
 
 			socket.on('submit roll', async (data) => {
+				// Find the game that this socket participates in
 				const roomSet = socket.rooms;
 				const roomName = [...roomSet][roomSet.size - 1];
 				let game;

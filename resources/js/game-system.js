@@ -21,11 +21,13 @@ class GameSystem {
 		for (let i = 0; i < this.players.length; i++) {
 			this.scoreboards.push(new Scoreboard(this.players[i].nickname));
 		}
+
+		this.rollSystem = new RollingSystem();
 	}
 
 	// Initialise the state of the game
 	start() {
-		this.currentRoll = new RollingSystem().newRoll();
+		this.currentRoll = this.rollSystem.newRoll();
 		this.currentPlayer = this.players[0];
 		this.roundCount = 1;
 		this.rollsLeft = 3;
@@ -35,7 +37,7 @@ class GameSystem {
 	reroll(diceToRoll) {
 		if (this.rollsLeft > 0) {
 			this.rollsLeft -= 1;
-			this.currentRoll.reroll(diceToRoll);
+			this.currentRoll = this.rollSystem.reroll(this.currentRoll, diceToRoll);
 		}
 	}
 
@@ -54,7 +56,7 @@ class GameSystem {
 	}
 
 	nextPlayer() {
-		this.rollsLeft = 0;
+		this.rollsLeft = 3;
 
 		// Get the next player
 		for (let i = 0; i < this.players.length; i++) {
@@ -69,7 +71,7 @@ class GameSystem {
 		}
 
 		// Get new roll
-		this.reroll();
+		this.reroll(this.rollSystem.newRoll(), []);
 	}
 
 	nextRound() {

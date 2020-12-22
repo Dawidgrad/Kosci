@@ -5,44 +5,41 @@ const Die = require('./die.js').Die;
 const IMAGE_SIZE = 64;
 
 class RollingSystem {
-	constructor() {
-		this.dice = [];
-	}
-
 	// Create completely new roll
 	newRoll() {
-		if (this.dice.length === 0) {
-			for (let i = 0; i < 5; i++) {
-				this.dice.push(new Die());
-			}
+		let dice = [];
+		for (let i = 0; i < 5; i++) {
+			dice.push(new Die());
 		}
+		dice = this.separateDice(dice);
 
-		this.separateDice();
+		return dice;
 	}
 
 	// Reroll some of the dice
-	reroll(diceToRoll) {
+	reroll(dice, diceToRoll) {
 		for (let i = 0; i < diceToRoll.length; i++) {
-			this.dice[diceToRoll[i]] = new Die();
+			dice[diceToRoll[i]] = new Die();
 		}
 
-		this.separateSelectedDice(diceToRoll);
+		dice = this.separateSelectedDice(diceToRoll);
+		return dice;
 	}
 
 	// Ensure that the dice are not overlapping
-	separateDice() {
+	separateDice(dice) {
 		while (true) {
 			let areSeparated = true;
 
 			// Compare each die against other dice
-			for (let i = 0; i < this.dice.length; i++) {
-				for (let j = i + 1; j < this.dice.length; j++) {
-					const intersection = this.checkIntersection(this.dice[i], this.dice[j]);
+			for (let i = 0; i < dice.length; i++) {
+				for (let j = i + 1; j < dice.length; j++) {
+					const intersection = this.checkIntersection(dice[i], dice[j]);
 
 					// If dice intersect, generate new position
 					if (intersection !== null) {
 						areSeparated = false;
-						this.dice[i] = new Die(this.dice[i].side);
+						dice[i] = new Die(dice[i].side);
 					}
 				}
 			}
@@ -52,25 +49,27 @@ class RollingSystem {
 				break;
 			}
 		}
+
+		return dice;
 	}
 
 	// Ensure that dice to roll are not overlapping
-	separateSelectedDice(toRoll) {
+	separateSelectedDice(dice, toRoll) {
 		while (true) {
 			let areSeparated = true;
 
 			for (let i = 0; i < toRoll.length; i++) {
-				for (let j = 0; j < this.dice.length; j++) {
-					if (this.dice[toRoll[i]] === this.dice[j]) {
+				for (let j = 0; j < dice.length; j++) {
+					if (dice[toRoll[i]] === dice[j]) {
 						continue;
 					}
 
-					const intersection = this.checkIntersection(this.dice[toRoll[i]], this.dice[j]);
+					const intersection = this.checkIntersection(dice[toRoll[i]], dice[j]);
 
 					// If dice intersect, generate new position
 					if (intersection !== null) {
 						areSeparated = false;
-						this.dice[toRoll[i]] = new Die(this.dice[i].side);
+						dice[toRoll[i]] = new Die(dice[i].side);
 					}
 				}
 			}
@@ -80,6 +79,8 @@ class RollingSystem {
 				break;
 			}
 		}
+
+		return dice;
 	}
 
 	// Checks if two dice are intersecting with eachother

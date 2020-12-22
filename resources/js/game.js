@@ -40,6 +40,11 @@ $(() => {
 		socket.emit('join room', urlParams.get('name'), localStorage.nickname);
 	}
 
+	// Initialise canvas
+	const canvas = document.getElementById('game-canvas');
+	const ctx = canvas.getContext('2d');
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 	$('#startGame').click(() => {
 		socket.emit('start game');
 	});
@@ -87,27 +92,36 @@ $(() => {
 		history.pushState(null, null, `/game?name=${name}`);
 	});
 
+	socket.on('game state update', (gameState) => {
+		console.log(gameState);
+		const roll = gameState.currentRoll;
+		const scoreboards = gameState.scoreboards;
+		const currentPlayer = gameState.currentPlayer.nickname;
+		const rollsLeft = gameState.rollsLeft;
+
+		drawDice(roll);
+		loadScoreboards(scoreboards);
+		updateRowSelection(scoreboards);
+		$('#current-player').html(currentPlayer);
+		$('#rolls-left').html(rollsLeft);
+	});
+
 	socket.on('next roll', async (data) => {
 		$('#message').html(localStorage.nickname);
-
-		const canvas = document.getElementById('game-canvas');
-		const ctx = canvas.getContext('2d');
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-		currentRoll = data.dice;
-
-		for (let i = 0; i < data.dice.length; i++) {
-			const die = data.dice[i];
-			const image = await getImage(die.side);
-			ctx.drawImage(image, die.x, die.y);
-		}
 	});
 
 	socket.on('update scoreboards', (scoreboards) => {
-		console.log(scoreboards);
 		loadScoreboards(scoreboards);
 		updateRowSelection(scoreboards);
 	});
+
+	async function drawDice(roll) {
+		for (let i = 0; i < roll.length; i++) {
+			const die = roll[i];
+			const image = await getImage(die.side);
+			ctx.drawImage(image, die.x, die.y);
+		}
+	}
 
 	async function getImage(side) {
 		let image;

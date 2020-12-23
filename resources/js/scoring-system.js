@@ -5,27 +5,25 @@ class CalculationStrategy {
 	calculateScore(roll, firstRoll) {}
 }
 
-class Ones extends CalculationStrategy {
-	validateCombination(roll) {
-		let onesCount = 0;
+function getFrequencyArray(roll) {
+	let frequencyArray = [0, 0, 0, 0, 0, 0];
 
-		for (const item in roll) {
-			if (roll[item].side === 1) {
-				onesCount++;
-			}
-		}
-
-		return onesCount > 0;
+	for (const item in roll) {
+		frequencyArray[roll[item].side - 1] += 1;
 	}
+
+	return frequencyArray;
+}
+
+class Ones extends CalculationStrategy {
+	validateCombination(roll) {}
 
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
-		if (this.validateCombination(roll)) {
-			for (const item in roll) {
-				if (roll[item].side === 1) {
-					score++;
-				}
+		for (const item in roll) {
+			if (roll[item].side === 1) {
+				score++;
 			}
 		}
 
@@ -34,26 +32,14 @@ class Ones extends CalculationStrategy {
 }
 
 class Twos extends CalculationStrategy {
-	validateCombination(roll) {
-		let twosCount = 0;
-
-		for (const item in roll) {
-			if (roll[item].side === 2) {
-				twosCount++;
-			}
-		}
-
-		return twosCount > 0;
-	}
+	validateCombination(roll) {}
 
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
-		if (this.validateCombination(roll)) {
-			for (const item in roll) {
-				if (roll[item].side === 2) {
-					score += 2;
-				}
+		for (const item in roll) {
+			if (roll[item].side === 2) {
+				score += 2;
 			}
 		}
 
@@ -62,26 +48,14 @@ class Twos extends CalculationStrategy {
 }
 
 class Threes extends CalculationStrategy {
-	validateCombination(roll) {
-		let threesCount = 0;
-
-		for (const item in roll) {
-			if (roll[item].side === 3) {
-				threesCount++;
-			}
-		}
-
-		return threesCount > 0;
-	}
+	validateCombination(roll) {}
 
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
-		if (this.validateCombination(roll)) {
-			for (const item in roll) {
-				if (roll[item].side === 3) {
-					score += 3;
-				}
+		for (const item in roll) {
+			if (roll[item].side === 3) {
+				score += 3;
 			}
 		}
 
@@ -90,26 +64,14 @@ class Threes extends CalculationStrategy {
 }
 
 class Fours extends CalculationStrategy {
-	validateCombination(roll) {
-		let foursCount = 0;
-
-		for (const item in roll) {
-			if (roll[item].side === 4) {
-				foursCount++;
-			}
-		}
-
-		return foursCount > 0;
-	}
+	validateCombination(roll) {}
 
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
-		if (this.validateCombination(roll)) {
-			for (const item in roll) {
-				if (roll[item].side === 4) {
-					score += 4;
-				}
+		for (const item in roll) {
+			if (roll[item].side === 4) {
+				score += 4;
 			}
 		}
 
@@ -118,26 +80,14 @@ class Fours extends CalculationStrategy {
 }
 
 class Fives extends CalculationStrategy {
-	validateCombination(roll) {
-		let fivesCount = 0;
-
-		for (const item in roll) {
-			if (roll[item].side === 5) {
-				fivesCount++;
-			}
-		}
-
-		return fivesCount > 0;
-	}
+	validateCombination(roll) {}
 
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
-		if (this.validateCombination(roll)) {
-			for (const item in roll) {
-				if (roll[item].side === 5) {
-					score += 5;
-				}
+		for (const item in roll) {
+			if (roll[item].side === 5) {
+				score += 5;
 			}
 		}
 
@@ -146,26 +96,14 @@ class Fives extends CalculationStrategy {
 }
 
 class Sixes extends CalculationStrategy {
-	validateCombination(roll) {
-		let sixesCount = 0;
-
-		for (const item in roll) {
-			if (roll[item].side === 6) {
-				sixesCount++;
-			}
-		}
-
-		return sixesCount > 0;
-	}
+	validateCombination(roll) {}
 
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
-		if (this.validateCombination(roll)) {
-			for (const item in roll) {
-				if (roll[item].side === 6) {
-					score += 6;
-				}
+		for (const item in roll) {
+			if (roll[item].side === 6) {
+				score += 6;
 			}
 		}
 
@@ -176,31 +114,216 @@ class Sixes extends CalculationStrategy {
 class Pair extends CalculationStrategy {
 	validateCombination(roll) {
 		const frequencyArray = getFrequencyArray(roll);
-		return [2, 3, 4, 5, 6].some((val) => frequencyArray.includes(val));
+		return [2, 3, 4, 5].some((val) => frequencyArray.includes(val));
 	}
 
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
 		if (this.validateCombination(roll)) {
-			const frequencyArray = getFrequencyArray();
+			const frequencyArray = getFrequencyArray(roll);
 			for (let i = 5; i >= 0; i--) {
 				if (frequencyArray[i] >= 2) {
 					score = (i + 1) * 2;
+					break;
 				}
 			}
 		}
 
 		return firstRoll ? score * 2 : score;
 	}
+}
 
-	getFrequencyArray(roll) {
-		let frequencyArray = [0, 0, 0, 0, 0, 0];
+class TwoPairs extends CalculationStrategy {
+	validateCombination(roll) {
+		const frequencyArray = getFrequencyArray(roll);
+		const pairs = [];
+		let valid = false;
 
-		for (const item in roll) {
-			frequencyArray[roll[item].side - 1] += 1;
+		for (const item in frequencyArray) {
+			if (frequencyArray[item] >= 2) {
+				pairs.push(frequencyArray[item]);
+			}
 		}
 
-		return frequencyArray;
+		if (pairs.length === 2 || pairs === [4] || pairs === [5]) {
+			valid = true;
+		}
+
+		return valid;
+	}
+
+	calculateScore(roll, firstRoll) {
+		let score = 0;
+		let singlePair = false;
+
+		if (this.validateCombination(roll)) {
+			const frequencyArray = getFrequencyArray(roll);
+			for (let i = 5; i >= 0; i--) {
+				const item = frequencyArray[i];
+
+				if (item === 4 || item === 5) {
+					score = (i + 1) * 4;
+					break;
+				}
+
+				if (singlePair && (item === 2 || item === 3)) {
+					score += (i + 1) * 2;
+					singlePair = false;
+					break;
+				}
+
+				if (item === 2 || item === 3) {
+					singlePair = true;
+					score += (i + 1) * 2;
+				}
+			}
+
+			if (singlePair === true) {
+				score = 0;
+			}
+		}
+
+		return firstRoll ? score * 2 : score;
+	}
+}
+
+class SmallStraight extends CalculationStrategy {
+	validateCombination(roll) {
+		const frequencyArray = getFrequencyArray(roll);
+
+		return frequencyArray === [1, 1, 1, 1, 1, 0];
+	}
+
+	calculateScore(roll, firstRoll) {
+		let score = 0;
+
+		if (this.validateCombination(roll)) {
+			score = 15;
+		}
+
+		return firstRoll ? score * 2 : score;
+	}
+}
+
+class LargeStraight extends CalculationStrategy {
+	validateCombination(roll) {
+		const frequencyArray = getFrequencyArray(roll);
+
+		return frequencyArray === [0, 1, 1, 1, 1, 1];
+	}
+
+	calculateScore(roll, firstRoll) {
+		let score = 0;
+
+		if (this.validateCombination(roll)) {
+			score = 20;
+		}
+
+		return firstRoll ? score * 2 : score;
+	}
+}
+
+class ThreeOfKind extends CalculationStrategy {
+	validateCombination(roll) {
+		const frequencyArray = getFrequencyArray(roll);
+		return [3, 4, 5].some((val) => frequencyArray.includes(val));
+	}
+
+	calculateScore(roll, firstRoll) {
+		let score = 0;
+
+		if (this.validateCombination(roll)) {
+			const frequencyArray = getFrequencyArray(roll);
+			for (let i = 5; i >= 0; i--) {
+				if (frequencyArray[i] >= 3) {
+					score = (i + 1) * 3;
+					break;
+				}
+			}
+		}
+
+		return firstRoll ? score * 2 : score;
+	}
+}
+
+class FullHouse extends CalculationStrategy {
+	validateCombination(roll) {
+		const frequencyArray = getFrequencyArray(roll);
+		return [2, 3].every((val) => frequencyArray.includes(val));
+	}
+
+	calculateScore(roll, firstRoll) {
+		let score = 0;
+
+		if (this.validateCombination(roll)) {
+			const frequencyArray = getFrequencyArray(roll);
+			for (let i = 5; i >= 0; i--) {
+				score += (i + 1) * frequencyArray[i];
+			}
+		}
+
+		return firstRoll ? score * 2 : score;
+	}
+}
+
+class FourOfKind extends CalculationStrategy {
+	validateCombination(roll) {
+		const frequencyArray = getFrequencyArray(roll);
+		return [4, 5].some((val) => frequencyArray.includes(val));
+	}
+
+	calculateScore(roll, firstRoll) {
+		let score = 0;
+
+		if (this.validateCombination(roll)) {
+			const frequencyArray = getFrequencyArray(roll);
+			for (let i = 5; i >= 0; i--) {
+				if (frequencyArray[i] >= 4) {
+					score = (i + 1) * 4;
+					break;
+				}
+			}
+		}
+
+		return firstRoll ? score * 2 : score;
+	}
+}
+
+class Kosci extends CalculationStrategy {
+	validateCombination(roll) {
+		const frequencyArray = getFrequencyArray(roll);
+		return [5].some((val) => frequencyArray.includes(val));
+	}
+
+	calculateScore(roll, firstRoll) {
+		let score = 0;
+
+		if (this.validateCombination(roll)) {
+			const frequencyArray = getFrequencyArray(roll);
+			for (let i = 5; i >= 0; i--) {
+				if (frequencyArray[i] === 5) {
+					score = 50;
+					break;
+				}
+			}
+		}
+
+		return firstRoll ? score * 2 : score;
+	}
+}
+
+class Chance extends CalculationStrategy {
+	validateCombination(roll) {}
+
+	calculateScore(roll, firstRoll) {
+		let score = 0;
+
+		const frequencyArray = getFrequencyArray(roll);
+		for (let i = 5; i >= 0; i--) {
+			score += (i + 1) * frequencyArray[i];
+		}
+
+		return firstRoll ? score * 2 : score;
 	}
 }

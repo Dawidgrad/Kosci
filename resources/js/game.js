@@ -144,6 +144,10 @@ $(() => {
 		$('#rollDice').prop('disabled', true);
 		$('#submitRoll').prop('disabled', true);
 
+		const scoreboards = gameState.scoreboards;
+		loadScoreboards(scoreboards);
+		updateRowSelection(scoreboards);
+
 		// Show the winner alert
 		const winnerAlert = $('#winner-alert');
 		winnerAlert.removeClass('d-none');

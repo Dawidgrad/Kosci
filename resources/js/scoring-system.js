@@ -1,4 +1,73 @@
-class ScoringSystem {}
+class ScoringSystem {
+	constructor() {}
+
+	calculateScore(strategy, roll, firstRoll) {
+		this.selectStrategy(strategy);
+		return this.strategy.calculateScore(roll, firstRoll);
+	}
+
+	getFinalScore(scores) {
+		let finalScore = 0;
+		const bonusPoints =
+			scores.ones + scores.twos + scores.threes + scores.fours + scores.fives + scores.sixes >= 63 ? 50 : 0;
+
+		Object.keys(scores).forEach((key, index) => {
+			finalScore += scores[key];
+		});
+
+		return finalScore + bonusPoints;
+	}
+
+	selectStrategy(strategy) {
+		switch (strategy) {
+			case 'ones':
+				this.strategy = new Ones();
+				break;
+			case 'twos':
+				this.strategy = new Twos();
+				break;
+			case 'threes':
+				this.strategy = new Threes();
+				break;
+			case 'fours':
+				this.strategy = new Fours();
+				break;
+			case 'fives':
+				this.strategy = new Fives();
+				break;
+			case 'sixes':
+				this.strategy = new Sixes();
+				break;
+			case 'pair':
+				this.strategy = new Pair();
+				break;
+			case 'twoPairs':
+				this.strategy = new TwoPairs();
+				break;
+			case 'smallStraight':
+				this.strategy = new SmallStraight();
+				break;
+			case 'largeStraight':
+				this.strategy = new LargeStraight();
+				break;
+			case 'threeKind':
+				this.strategy = new ThreeOfKind();
+				break;
+			case 'fullHouse':
+				this.strategy = new FullHouse();
+				break;
+			case 'fourKind':
+				this.strategy = new FourOfKind();
+				break;
+			case 'kosci':
+				this.strategy = new Kosci();
+				break;
+			case 'chance':
+				this.strategy = new Chance();
+				break;
+		}
+	}
+}
 
 class CalculationStrategy {
 	validateCombination(roll) {}
@@ -327,3 +396,5 @@ class Chance extends CalculationStrategy {
 		return firstRoll ? score * 2 : score;
 	}
 }
+
+module.exports.ScoringSystem = ScoringSystem;

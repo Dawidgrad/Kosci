@@ -1,4 +1,5 @@
 const RollingSystem = require('./rolling-system').RollingSystem;
+const ScoringSystem = require('./scoring-system').ScoringSystem;
 const Scoreboard = require('./scoreboard').Scoreboard;
 const Player = require('./player').Player;
 const MAX_ROUND = 15;
@@ -22,7 +23,9 @@ class GameSystem {
 		}
 
 		this.rollSystem = new RollingSystem();
+		this.scoringSystem = new ScoringSystem();
 		this.gameEnded = false;
+		this.winner = '';
 	}
 
 	// Initialise the state of the game
@@ -45,7 +48,12 @@ class GameSystem {
 	submitRoll(rowToUpdate) {
 		for (const item in this.scoreboards) {
 			if (this.scoreboards[item].player === this.currentPlayer.nickname) {
-				this.scoreboards[item].scores[rowToUpdate] = 1;
+				const isFirstRoll = this.rollsLeft === 3 ? true : false;
+				this.scoreboards[item].scores[rowToUpdate] = this.scoringSystem.calculateScore(
+					rowToUpdate,
+					this.currentRoll,
+					isFirstRoll
+				);
 			}
 		}
 
@@ -61,6 +69,7 @@ class GameSystem {
 			rollsLeft: this.rollsLeft,
 			roundCount: this.roundCount,
 			gameEnded: this.gameEnded,
+			winner: this.winner,
 		};
 		return gameState;
 	}
@@ -97,7 +106,19 @@ class GameSystem {
 
 	finishGame() {
 		this.gameEnded = true;
-		this.winner = 'TemporaryWinner';
+		let highestScore = 0;
+		let winner = '';
+
+		for (const item in this.scoreboards) {
+			const score = this.scoringSystem.getFinalScore(this.scoreboards[item].scores);
+
+			if (score > highestScore) {
+				highestScore = score;
+				winner = this.scoreboards[item].player;
+			}
+		}
+
+		this.winner = winner;
 	}
 }
 

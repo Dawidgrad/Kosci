@@ -105,8 +105,12 @@ $(() => {
 	});
 
 	socket.on('game state update', (gameState) => {
+		const currentPlayer = gameState.currentPlayer.nickname;
+		const rollsLeft = gameState.rollsLeft;
+		const scoreboards = gameState.scoreboards;
+
 		for (let i = 0; i < 5; i++) {
-			if (currentRoll) {
+			if (currentRoll && rollsLeft < 3) {
 				if (currentRoll[i].selected) {
 					gameState.currentRoll[i].selected = true;
 				} else {
@@ -119,17 +123,10 @@ $(() => {
 
 		currentRoll = gameState.currentRoll;
 
-		const scoreboards = gameState.scoreboards;
-		const currentPlayer = gameState.currentPlayer.nickname;
-		const rollsLeft = gameState.rollsLeft;
-		// const roundCount = gameState.roundCount;
-
-		drawDice(currentRoll);
+		drawDice(currentRoll, currentPlayer);
 		loadScoreboards(scoreboards);
 		updateRowSelection(scoreboards);
-		$('#game-state').html(
-			`<b>Current turn: ${currentPlayer}</br>Rolls left: ${rollsLeft}</b>` // </br>Round ${roundCount}
-		);
+		$('#game-state').html(`<b>Current turn: ${currentPlayer}</br>Rolls left: ${rollsLeft}</b>`);
 
 		// Control UI
 		if (currentPlayer !== localStorage.nickname) {
@@ -158,9 +155,10 @@ $(() => {
 		winnerAlert.text(`${gameState.winner} has won the game!`);
 	});
 
-	async function drawDice(roll) {
+	async function drawDice(roll, currentPlayer) {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+		// Draw dice and borders around them if selected
 		for (let i = 0; i < roll.length; i++) {
 			const die = roll[i];
 			const image = await getImage(die.side);
@@ -172,8 +170,23 @@ $(() => {
 				ctx.strokeStyle = 'red';
 				ctx.rect(die.x - 5, die.y - 5, IMAGE_WIDTH + 10, IMAGE_WIDTH + 10);
 				ctx.stroke();
+				ctx.closePath();
 			}
 		}
+
+		// Draw border indicating whos turn it is
+		ctx.beginPath();
+		ctx.lineWidth = '3';
+
+		if (currentPlayer !== localStorage.nickname) {
+			ctx.strokeStyle = 'red';
+		} else {
+			ctx.strokeStyle = 'green';
+		}
+
+		ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		ctx.stroke();
+		ctx.closePath();
 	}
 
 	async function getImage(side) {

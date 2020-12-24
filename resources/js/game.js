@@ -143,10 +143,13 @@ $(() => {
 	socket.on('game ended', (gameState) => {
 		$('#rollDice').prop('disabled', true);
 		$('#submitRoll').prop('disabled', true);
+		$('#rowDropdown').addClass('d-none');
+		$('#submitRoll').addClass('d-none');
 
 		const scoreboards = gameState.scoreboards;
 		loadScoreboards(scoreboards);
 		updateRowSelection(scoreboards);
+		addFinalScore(scoreboards);
 
 		// Show the winner alert
 		const winnerAlert = $('#winner-alert');
@@ -190,7 +193,7 @@ $(() => {
 			keys.push(e);
 		});
 
-		// CLear the scoreboard table
+		// Clear the scoreboard table
 		$('#scoreboard > tbody').html('');
 
 		const table = $('#scoreboard')[0];
@@ -218,6 +221,18 @@ $(() => {
 					score.innerHTML = scoreboards[item].scores[keys[key]];
 				}
 			}
+		}
+	}
+
+	function addFinalScore(scoreboards) {
+		const table = $('#scoreboard')[0];
+		const row = table.insertRow();
+		let rowName = row.insertCell();
+		rowName.innerHTML = `<b>Sum</b>`;
+
+		for (const item in scoreboards) {
+			let finalScore = row.insertCell();
+			finalScore.innerHTML = scoreboards[item].finalScore;
 		}
 	}
 

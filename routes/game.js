@@ -83,7 +83,6 @@ function setUpSocketListeners(io) {
 					game.submitRoll(data.rowToSubmit);
 					let gameState = game.getGameState();
 					if (gameState.gameEnded) {
-						console.log(gameState);
 						io.in(roomName).emit('game ended', gameState);
 					} else {
 						io.in(roomName).emit('game state update', gameState);

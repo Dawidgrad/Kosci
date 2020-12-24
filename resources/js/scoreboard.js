@@ -20,8 +20,9 @@ class Scoreboard {
 		};
 	}
 
-	updateScoreboard(scores) {
+	updateScoreboard(scores, finalScore = 0) {
 		this.scores = scores;
+		this.finalScore = finalScore;
 	}
 }
 

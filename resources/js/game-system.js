@@ -111,6 +111,7 @@ class GameSystem {
 
 		for (const item in this.scoreboards) {
 			const score = this.scoringSystem.getFinalScore(this.scoreboards[item].scores);
+			this.scoreboards[item].finalScore = score;
 
 			if (score > highestScore) {
 				highestScore = score;

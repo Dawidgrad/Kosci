@@ -19,7 +19,6 @@ $(() => {
 
 			$('#roomList > tbody:last-child').append(row);
 		}
-		console.log(rooms);
 	});
 
 	$('#createRoom').click(() => {

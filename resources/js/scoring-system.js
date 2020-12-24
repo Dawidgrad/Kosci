@@ -70,7 +70,6 @@ class ScoringSystem {
 }
 
 class CalculationStrategy {
-	validateCombination(roll) {}
 	calculateScore(roll, firstRoll) {}
 }
 
@@ -85,8 +84,6 @@ function getFrequencyArray(roll) {
 }
 
 class Ones extends CalculationStrategy {
-	validateCombination(roll) {}
-
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
@@ -101,8 +98,6 @@ class Ones extends CalculationStrategy {
 }
 
 class Twos extends CalculationStrategy {
-	validateCombination(roll) {}
-
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
@@ -117,8 +112,6 @@ class Twos extends CalculationStrategy {
 }
 
 class Threes extends CalculationStrategy {
-	validateCombination(roll) {}
-
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
@@ -133,8 +126,6 @@ class Threes extends CalculationStrategy {
 }
 
 class Fours extends CalculationStrategy {
-	validateCombination(roll) {}
-
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
@@ -149,8 +140,6 @@ class Fours extends CalculationStrategy {
 }
 
 class Fives extends CalculationStrategy {
-	validateCombination(roll) {}
-
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
@@ -165,8 +154,6 @@ class Fives extends CalculationStrategy {
 }
 
 class Sixes extends CalculationStrategy {
-	validateCombination(roll) {}
-
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 
@@ -383,8 +370,6 @@ class Kosci extends CalculationStrategy {
 }
 
 class Chance extends CalculationStrategy {
-	validateCombination(roll) {}
-
 	calculateScore(roll, firstRoll) {
 		let score = 0;
 

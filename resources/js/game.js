@@ -71,6 +71,7 @@ $(() => {
 			obj['rowToSubmit'] = key;
 			obj['nickname'] = localStorage.nickname;
 			socket.emit('submit roll', obj);
+			$('#selectRow')[0].innerHTML = 'Select row';
 		} else {
 			console.log('Select a row to submit the score');
 		}

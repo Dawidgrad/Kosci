@@ -1,31 +1,27 @@
 const Scoreboard = require('../models/scoreboard');
-const { options } = require('../routes/game');
 
-async function findScoreboard(nickname, roomName) {
-	const scoreboard = await Scoreboard.findOne({ player: nickname, roomName: roomName }).exec();
-	return scoreboard;
+async function submitScoreboards(scoreboards, winner) {
+	const participants = [];
+
+	for (const item in scoreboards) {
+		participants.push(scoreboards[item].player);
+	}
+
+	for (const item in scoreboards) {
+		const nickname = scoreboards[item].player;
+		const score = scoreboards[item].finalScore;
+		const hasWon = scoreboards[item].player === winner;
+
+		await createScoreboard(nickname, participants, score, hasWon);
+	}
 }
 
-async function findRoomScoreboards(roomName) {
-	const scoreboards = await Scoreboard.find({ roomName: roomName }).exec();
-	return scoreboards;
-}
-
-async function updateScoreboard(nickname, roomName, scores) {
-	const scoreboard = await findScoreboard(nickname, roomName);
-	scoreboard.scores = scores;
-
-	await scoreboard.save((error) => {
-		if (error) {
-			console.log('Could not update scoreboard!');
-		}
-	});
-}
-
-async function createScoreboard(nickname, roomName) {
+async function createScoreboard(nickname, participants, score, hasWon) {
 	const data = {
 		player: nickname,
-		roomName: roomName,
+		participants: participants,
+		score: score,
+		winner: hasWon,
 	};
 
 	const newScoreboard = new Scoreboard(data);
@@ -37,7 +33,4 @@ async function createScoreboard(nickname, roomName) {
 	return newScoreboard;
 }
 
-module.exports.findScoreboard = findScoreboard;
-module.exports.findRoomScoreboards = findRoomScoreboards;
-module.exports.updateScoreboard = updateScoreboard;
-module.exports.createScoreboard = createScoreboard;
+module.exports.submitScoreboards = submitScoreboards;

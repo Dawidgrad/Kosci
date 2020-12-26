@@ -1,5 +1,6 @@
 const express = require('express');
 const roomController = require('../controllers/room_controller');
+const scoreboardController = require('../controllers/scoreboard_controller');
 const GameSystem = require('../resources/js/game-system').GameSystem;
 
 const router = express.Router();
@@ -83,6 +84,7 @@ function setUpSocketListeners(io) {
 					game.submitRoll(data.rowToSubmit);
 					let gameState = game.getGameState();
 					if (gameState.gameEnded) {
+						scoreboardController.submitScoreboards(gameState.scoreboards, gameState.winner);
 						io.in(roomName).emit('game ended', gameState);
 					} else {
 						io.in(roomName).emit('game state update', gameState);

@@ -163,10 +163,10 @@ $(() => {
 			const die = roll[i];
 			const image = await getImage(die.side);
 			ctx.drawImage(image, die.x, die.y);
+			ctx.lineWidth = '3';
 
 			if (die.selected) {
 				ctx.beginPath();
-				ctx.lineWidth = '3';
 				ctx.strokeStyle = 'red';
 				ctx.rect(die.x - 5, die.y - 5, IMAGE_WIDTH + 10, IMAGE_WIDTH + 10);
 				ctx.stroke();

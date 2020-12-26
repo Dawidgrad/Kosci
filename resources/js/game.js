@@ -97,7 +97,7 @@ $(() => {
 			}
 		}
 
-		drawDice(currentRoll);
+		drawDice(currentRoll, this.currentPlayer);
 	});
 
 	socket.on('room created', (name) => {
@@ -122,6 +122,7 @@ $(() => {
 		}
 
 		currentRoll = gameState.currentRoll;
+		this.currentPlayer = currentPlayer;
 
 		drawDice(currentRoll, currentPlayer);
 		loadScoreboards(scoreboards);
@@ -174,10 +175,11 @@ $(() => {
 			}
 		}
 
-		// Draw border indicating whos turn it is
+		// Draw border indicating whose turn it is
 		ctx.beginPath();
 		ctx.lineWidth = '3';
 
+		console.log(`Current player: ${currentPlayer}, localStorage: ${localStorage.nickname}`);
 		if (currentPlayer !== localStorage.nickname) {
 			ctx.strokeStyle = 'red';
 		} else {

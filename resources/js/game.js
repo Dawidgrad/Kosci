@@ -158,13 +158,13 @@ $(() => {
 
 	async function drawDice(roll, currentPlayer) {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		ctx.lineWidth = '3';
 
 		// Draw dice and borders around them if selected
 		for (let i = 0; i < roll.length; i++) {
 			const die = roll[i];
 			const image = await getImage(die.side);
 			ctx.drawImage(image, die.x, die.y);
-			ctx.lineWidth = '3';
 
 			if (die.selected) {
 				ctx.beginPath();
@@ -177,9 +177,7 @@ $(() => {
 
 		// Draw border indicating whose turn it is
 		ctx.beginPath();
-		ctx.lineWidth = '3';
 
-		console.log(`Current player: ${currentPlayer}, localStorage: ${localStorage.nickname}`);
 		if (currentPlayer !== localStorage.nickname) {
 			ctx.strokeStyle = 'red';
 		} else {

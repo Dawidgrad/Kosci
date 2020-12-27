@@ -20,6 +20,14 @@ async function updateRoomProgress(name, progress) {
 	});
 }
 
+async function deleteRoom(name) {
+	Room.deleteOne({ name: name }, (error) => {
+		if (error) {
+			console.log(error);
+		}
+	});
+}
+
 function generateId() {
 	var S4 = function () {
 		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -70,3 +78,4 @@ module.exports.findRoomByName = findRoomByName;
 module.exports.createRoom = createRoom;
 module.exports.updateRoomProgress = updateRoomProgress;
 module.exports.registerUser = registerUser;
+module.exports.deleteRoom = deleteRoom;

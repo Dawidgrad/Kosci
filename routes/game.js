@@ -6,7 +6,7 @@ const GameSystem = require('../resources/js/game-system').GameSystem;
 const router = express.Router();
 
 let listenersSetUp = false;
-const games = [];
+let games = [];
 
 router.get('/', (req, res) => {
 	if (req.session.loggedIn) {
@@ -83,6 +83,12 @@ function setUpSocketListeners(io) {
 					if (gameState.gameEnded) {
 						scoreboardController.submitScoreboards(gameState.scoreboards, gameState.winner);
 						io.in(roomName).emit('game ended', gameState);
+
+						// Remove the game entry
+						games = games.filter((item) => item !== game);
+
+						// Remove room from the database
+						roomController.deleteRoom(roomName);
 					} else {
 						io.in(roomName).emit('game state update', gameState);
 					}

@@ -1,19 +1,17 @@
+body {
+	overflow-y: scroll;
+}
+
+h2 {
+	text-align: center;
+}
+
 .container {
 	margin-top: 3%;
 	background-color: white;
 	box-shadow: 10px 5px 5px gray;
 	border-radius: 25px;
 	padding: 10px 20px 10px 20px;
-}
-
-#createRoom {
-	height: 100%;
-	padding: 15px 20px;
-	text-align: center;
-}
-
-h2 {
-	text-align: center;
 }
 
 .button-shadow {
@@ -27,4 +25,24 @@ h2 {
 
 .full-width {
 	width: 100%;
+}
+
+.profile-section {
+	margin-top: 5%;
+}
+
+.danger-zone {
+	border: red 2px dashed;
+	border-radius: 10px;
+	padding: 1%;
+}
+
+#createRoom {
+	height: 100%;
+	padding: 15px 20px;
+	text-align: center;
+}
+
+#deleteUser {
+	margin-left: 2%;
 }

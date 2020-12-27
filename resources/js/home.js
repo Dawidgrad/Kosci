@@ -1,12 +1,61 @@
 $(() => {
 	const socket = io();
+	let listIndex = 0;
+	let rooms = [];
 
 	socket.emit('get list');
 
 	socket.on('update list', (rooms) => {
+		this.rooms = rooms;
+
+		fillRoomList(this.rooms);
+
+		if (listIndex === 0) {
+			$('#previousButton').prop('disabled', true);
+		}
+
+		if (this.rooms.length <= 10) {
+			$('#nextButton').prop('disabled', true);
+		}
+
+		$('.join-button').click(() => {
+			socket.emit('list change');
+		});
+	});
+
+	$('#createRoom').click(() => {
+		socket.emit('list change');
+		socket.disconnect();
+	});
+
+	$('#previousButton').click(() => {
+		listIndex -= 10;
+		fillRoomList(this.rooms);
+
+		$('#nextButton').prop('disabled', false);
+
+		if (listIndex === 0) {
+			$('#previousButton').prop('disabled', true);
+		}
+	});
+
+	$('#nextButton').click(() => {
+		listIndex += 10;
+		fillRoomList(this.rooms);
+
+		$('#previousButton').prop('disabled', false);
+
+		if (listIndex + 10 >= this.rooms.length) {
+			$('#nextButton').prop('disabled', true);
+		}
+	});
+
+	function fillRoomList(rooms) {
 		$('#roomList tr').remove();
 
-		for (let i = 0; i < rooms.length; i++) {
+		let indexLimit = listIndex + 10 < rooms.length ? listIndex + 10 : rooms.length;
+
+		for (let i = listIndex; i < indexLimit; i++) {
 			const name = rooms[i].name;
 			const participants = rooms[i].participants.length;
 			const status = rooms[i].inProgress ? 'In Progress' : 'Open';
@@ -21,14 +70,5 @@ $(() => {
 
 			$('#roomList > tbody:last-child').append(row);
 		}
-
-		$('.join-button').click(() => {
-			socket.emit('list change');
-		});
-	});
-
-	$('#createRoom').click(() => {
-		socket.emit('list change');
-		socket.disconnect();
-	});
+	}
 });

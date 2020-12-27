@@ -25,6 +25,16 @@ async function addUser(data) {
 	});
 }
 
+async function updatePassword(user, newPassword) {
+	user.password = newPassword;
+	user.save((error) => {
+		if (error) {
+			console.log("Could not update user's password!");
+		}
+	});
+}
+
 module.exports.findUserByEmail = findUserByEmail;
 module.exports.findUserByNickname = findUserByNickname;
 module.exports.addUser = addUser;
+module.exports.updatePassword = updatePassword;

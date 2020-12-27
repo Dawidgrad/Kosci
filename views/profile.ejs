@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Kosci Home</title>
+		<title>Kosci Profile</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="/css/shared.css" />
 		<link rel="stylesheet" href="/css/home.css" />
@@ -12,6 +12,7 @@
 			crossorigin="anonymous"
 		/>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.2/dist/jquery.validate.js"></script>
 		<script src="/js/profile.js"></script>
 	</head>
 	<body style="background-color: #e0e0e0">
@@ -32,6 +33,12 @@
 			</div>
 		</nav>
 
+		<% if (locals.message) { %>
+		<div class="alert alert-success" role="alert"><%= locals.message %></div>
+		<% } %> <% if (locals.error) { %>
+		<div class="alert alert-danger" role="alert"><%= locals.error %></div>
+		<% } %>
+
 		<div class="container">
 			<div class="row">
 				<div class="col-sm">
@@ -49,7 +56,7 @@
 			<div class="row profile-section">
 				<div class="col-lg-4">
 					<h3>Change password</h3>
-					<form action="/register" method="POST" id="register-form">
+					<form action="/profile" method="POST" id="passwordForm">
 						<div class="form-group">
 							<label for="Old Password">Old Password</label>
 							<input class="form-control" type="password" name="oldPassword" id="oldPassword" />
@@ -63,14 +70,14 @@
 							<input class="form-control" type="password" name="confirm" id="confirm" />
 						</div>
 						<div class="text-center">
-							<button class="btn btn-info button-shadow" type="submit">Submit</button>
+							<button class="btn btn-info button-shadow" type="submit">Change</button>
 						</div>
 					</form>
 				</div>
 
 				<div class="col-lg-4">
 					<h3>Change email</h3>
-					<form action="/register" method="POST" id="register-form">
+					<form action="/profile" method="POST" id="emailForm">
 						<div class="form-group">
 							<label for="Old E-mail">Old E-mail address</label>
 							<input class="form-control" type="text" name="oldEmail" id="oldEmail" />
@@ -80,20 +87,20 @@
 							<input class="form-control" type="text" name="newEmail" id="newEmail" />
 						</div>
 						<div class="text-center">
-							<button class="btn btn-info button-shadow" type="submit">Submit</button>
+							<button class="btn btn-info button-shadow" type="submit">Change</button>
 						</div>
 					</form>
 				</div>
 
 				<div class="col-lg-4">
 					<h3>Change nickname</h3>
-					<form action="/register" method="POST" id="nicknameForm">
+					<form action="/profile" method="POST" id="nicknameForm">
 						<div class="form-group">
 							<label for="Nickname">New nickname</label>
 							<input class="form-control" type="text" name="nickname" id="nickname" />
 						</div>
 						<div class="text-center">
-							<button class="btn btn-info button-shadow" type="submit">Submit</button>
+							<button class="btn btn-info button-shadow" type="submit">Change</button>
 						</div>
 					</form>
 				</div>

@@ -28,8 +28,10 @@ function setUpSocketListeners(io) {
 			});
 
 			socket.on('join room', (name, nickname) => {
-				socket.join(name);
-				roomController.registerUser(name, nickname);
+				const joinedRoom = roomController.registerUser(name, nickname);
+				if (joinedRoom) {
+					socket.join(name);
+				}
 			});
 
 			socket.on('start game', async () => {

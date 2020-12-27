@@ -47,14 +47,22 @@ async function createRoom(nickname) {
 async function registerUser(roomName, nickname) {
 	const room = await findRoomByName(roomName);
 	const participants = room.participants;
-	participants.push({ nickname: nickname });
+	let joinedRoom = false;
 
-	room.update({ _id: room._id }, { participants: participants });
-	room.save((error) => {
-		if (error) {
-			console.log('Could not update room!');
-		}
-	});
+	if (participants.filter((e) => e.nickname === nickname).length === 0) {
+		participants.push({ nickname: nickname });
+
+		room.update({ _id: room._id }, { participants: participants });
+		room.save((error) => {
+			if (error) {
+				console.log('Could not update room!');
+			}
+		});
+
+		joinedRoom = true;
+	}
+
+	return joinedRoom;
 }
 
 module.exports.findAllRooms = findAllRooms;

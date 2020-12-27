@@ -19,9 +19,16 @@ router.get('/', (req, res) => {
 function setUpSocketListeners(io) {
 	if (listenersSetUp == false) {
 		io.on('connection', (socket) => {
-			socket.on('get room list', async () => {
+			socket.on('get list', async () => {
 				const rooms = await roomController.findAllRooms();
-				socket.emit('update room list', rooms);
+				socket.emit('update list', rooms);
+			});
+
+			socket.on('list change', async () => {
+				setTimeout(async () => {
+					const rooms = await roomController.findAllRooms();
+					io.emit('update list', rooms);
+				}, 1000);
 			});
 		});
 

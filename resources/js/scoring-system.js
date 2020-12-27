@@ -8,14 +8,26 @@ class ScoringSystem {
 
 	getFinalScore(scores) {
 		let finalScore = 0;
-		const bonusPoints =
+		const upperSectionBonus =
 			scores.ones + scores.twos + scores.threes + scores.fours + scores.fives + scores.sixes >= 63 ? 50 : 0;
+		const lowerSectionBonus =
+			scores.pair !== 0 &&
+			scores.twoPairs !== 0 &&
+			scores.smallStraight !== 0 &&
+			scores.largeStraight !== 0 &&
+			scores.threeKind !== 0 &&
+			scores.fullHouse !== 0 &&
+			scores.fourKind !== 0 &&
+			scores.kosci !== 0 &&
+			scores.chance !== 0
+				? 100
+				: 0;
 
 		Object.keys(scores).forEach((key, index) => {
 			finalScore += scores[key];
 		});
 
-		return finalScore + bonusPoints;
+		return finalScore + lowerSectionBonus + upperSectionBonus;
 	}
 
 	selectStrategy(strategy) {
@@ -337,6 +349,7 @@ class FourOfKind extends CalculationStrategy {
 			for (let i = 5; i >= 0; i--) {
 				if (frequencyArray[i] >= 4) {
 					score = (i + 1) * 4;
+					score += 25; // Add bonus
 					break;
 				}
 			}
@@ -359,7 +372,8 @@ class Kosci extends CalculationStrategy {
 			const frequencyArray = getFrequencyArray(roll);
 			for (let i = 5; i >= 0; i--) {
 				if (frequencyArray[i] === 5) {
-					score = 50;
+					score = (i + 1) * 4;
+					score += 50; // Add bonus
 					break;
 				}
 			}

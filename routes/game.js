@@ -34,8 +34,7 @@ function setUpSocketListeners(io) {
 
 			socket.on('start game', async () => {
 				// Change state of the room on the database
-				const roomSet = socket.rooms;
-				const roomName = [...roomSet][roomSet.size - 1];
+				const roomName = getRoomName(socket);
 				await roomController.updateRoomProgress(roomName, true);
 				const room = await roomController.findRoomByName(roomName);
 
@@ -48,9 +47,7 @@ function setUpSocketListeners(io) {
 			});
 
 			socket.on('roll dice', async (data) => {
-				// Find the game that this socket participates in
-				const roomSet = socket.rooms;
-				const roomName = [...roomSet][roomSet.size - 1];
+				const roomName = getRoomName(socket);
 				let game;
 
 				for (const item in games) {
@@ -69,9 +66,7 @@ function setUpSocketListeners(io) {
 			});
 
 			socket.on('submit roll', async (data) => {
-				// Find the game that this socket participates in
-				const roomSet = socket.rooms;
-				const roomName = [...roomSet][roomSet.size - 1];
+				const roomName = getRoomName(socket);
 				let game;
 
 				for (const item in games) {
@@ -93,10 +88,21 @@ function setUpSocketListeners(io) {
 					console.log('Could not find the game!');
 				}
 			});
+
+			socket.on('new message', (data) => {
+				const roomName = getRoomName(socket);
+				io.in(roomName).emit('update messages', data);
+			});
 		});
 
 		listenersSetUp = true;
 	}
+}
+
+function getRoomName(socket) {
+	// Find the room name that the socket is part of
+	const roomSet = socket.rooms;
+	return (roomName = [...roomSet][roomSet.size - 1]);
 }
 
 module.exports = router;

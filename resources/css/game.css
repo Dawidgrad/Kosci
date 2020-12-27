@@ -41,3 +41,7 @@ table {
 #game-state {
 	text-align: center;
 }
+
+#messageBox {
+	resize: none;
+}

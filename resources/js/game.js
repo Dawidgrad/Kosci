@@ -77,6 +77,27 @@ $(() => {
 		}
 	});
 
+	$('#sendMessage').click(() => {
+		const messageBox = $('#messageBox');
+
+		if (messageBox.val().trim() !== '') {
+			const data = {
+				nickname: localStorage.nickname,
+				message: messageBox.val(),
+			};
+
+			messageBox.val('');
+
+			socket.emit('new message', data);
+		}
+	});
+
+	$('#messageBox').keypress(function (e) {
+		if (e.which === 13) {
+			$('#sendMessage').click();
+		}
+	});
+
 	$('.dropdown-menu').on('click', 'a', function () {
 		$('#selectRow:first-child').text($(this).text());
 		$('#selectRow:first-child').val($(this).text());
@@ -154,6 +175,14 @@ $(() => {
 		const winnerAlert = $('#winner-alert');
 		winnerAlert.removeClass('d-none');
 		winnerAlert.text(`${gameState.winner} has won the game!`);
+	});
+
+	socket.on('update messages', (data) => {
+		const chatBox = $('#chat-box');
+		chatBox.append(`<p><b>${data.nickname}:</b> ${data.message}</p>`);
+
+		// Scroll chat to the latest message
+		$('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
 	});
 
 	async function drawDice(roll, currentPlayer) {

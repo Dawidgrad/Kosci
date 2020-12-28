@@ -105,4 +105,18 @@ $(() => {
 			},
 		});
 	}
+
+	if ($('#deleteForm').length) {
+		$('#deleteForm').validate({
+			submitHandler: (form) => {
+				$('<input />').attr('type', 'hidden').attr('name', 'deleteAccount').attr('value', true).appendTo(form);
+				$('<input />')
+					.attr('type', 'hidden')
+					.attr('name', 'nickname')
+					.attr('value', localStorage.nickname)
+					.appendTo(form);
+				form.submit();
+			},
+		});
+	}
 });

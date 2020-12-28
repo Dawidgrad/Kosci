@@ -18,14 +18,18 @@ router.post('/', async (req, res) => {
 
 		if (req.body.passwordChange) {
 			data = await updatePassword(req.body.nickname, req.body.oldPassword, req.body.newPassword);
+			res.render('profile', data);
 		} else if (req.body.emailChange) {
 			data = await updateEmail(req.body.nickname, req.body.oldEmail, req.body.newEmail);
+			res.render('profile', data);
 		} else if (req.body.nicknameChange) {
 			data = await updateNickname(req.body.nickname, req.body.newNickname);
+			res.render('profile', data);
 		} else if (req.body.deleteAccount) {
+			console.log(req.body.nickname);
+			await userController.deleteUser(req.body.nickname);
+			res.redirect('/logout');
 		}
-
-		res.render('profile', data);
 	} catch (ex) {
 		console.log(ex);
 		res.status(500).send();

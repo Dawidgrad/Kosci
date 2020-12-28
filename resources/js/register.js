@@ -21,7 +21,7 @@ $(() => {
 				},
 				confirm: {
 					required: true,
-					equalTo: '#newPassword',
+					equalTo: '#password',
 				},
 			},
 			messages: {

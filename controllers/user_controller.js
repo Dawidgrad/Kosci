@@ -70,9 +70,18 @@ async function updateNickname(user, newNickname) {
 	return nicknameUpdated;
 }
 
+async function deleteUser(nickname) {
+	User.deleteOne({ nickname: nickname }, (error) => {
+		if (error) {
+			console.log(error);
+		}
+	});
+}
+
 module.exports.findUserByEmail = findUserByEmail;
 module.exports.findUserByNickname = findUserByNickname;
 module.exports.addUser = addUser;
 module.exports.updatePassword = updatePassword;
 module.exports.updateEmail = updateEmail;
 module.exports.updateNickname = updateNickname;
+module.exports.deleteUser = deleteUser;

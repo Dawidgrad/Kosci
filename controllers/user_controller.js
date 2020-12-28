@@ -34,7 +34,45 @@ async function updatePassword(user, newPassword) {
 	});
 }
 
+async function updateEmail(user, newEmail) {
+	let emailUpdated = false;
+
+	if (await findUserByEmail(newEmail)) {
+		emailUpdated = false;
+	} else {
+		user.email = newEmail;
+		user.save((error) => {
+			if (error) {
+				console.log("Could not update user's password!");
+			}
+		});
+		emailUpdated = true;
+	}
+
+	return emailUpdated;
+}
+
+async function updateNickname(user, newNickname) {
+	let nicknameUpdated = false;
+
+	if (await findUserByNickname(newNickname)) {
+		nicknameUpdated = false;
+	} else {
+		user.nickname = newNickname;
+		user.save((error) => {
+			if (error) {
+				console.log("Could not update user's password!");
+			}
+		});
+		nicknameUpdated = true;
+	}
+
+	return nicknameUpdated;
+}
+
 module.exports.findUserByEmail = findUserByEmail;
 module.exports.findUserByNickname = findUserByNickname;
 module.exports.addUser = addUser;
 module.exports.updatePassword = updatePassword;
+module.exports.updateEmail = updateEmail;
+module.exports.updateNickname = updateNickname;

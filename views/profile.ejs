@@ -38,6 +38,12 @@
 		<% } %> <% if (locals.error) { %>
 		<div class="alert alert-danger" role="alert"><%= locals.error %></div>
 		<% } %>
+		<script>
+			if ('<%= locals.newNickname %>') {
+				console.log('<%= locals.newNickname %>');
+				localStorage.nickname = '<%= locals.newNickname %>';
+			}
+		</script>
 
 		<div class="container">
 			<div class="row">
@@ -97,7 +103,7 @@
 					<form action="/profile" method="POST" id="nicknameForm">
 						<div class="form-group">
 							<label for="Nickname">New nickname</label>
-							<input class="form-control" type="text" name="nickname" id="nickname" />
+							<input class="form-control" type="text" name="newNickname" id="newNickname" />
 						</div>
 						<div class="text-center">
 							<button class="btn btn-info button-shadow" type="submit">Change</button>

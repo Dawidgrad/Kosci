@@ -68,6 +68,11 @@ $(() => {
 			},
 			submitHandler: (form) => {
 				$('<input />').attr('type', 'hidden').attr('name', 'emailChange').attr('value', true).appendTo(form);
+				$('<input />')
+					.attr('type', 'hidden')
+					.attr('name', 'nickname')
+					.attr('value', localStorage.nickname)
+					.appendTo(form);
 				form.submit();
 			},
 		});
@@ -91,6 +96,11 @@ $(() => {
 			},
 			submitHandler: (form) => {
 				$('<input />').attr('type', 'hidden').attr('name', 'nicknameChange').attr('value', true).appendTo(form);
+				$('<input />')
+					.attr('type', 'hidden')
+					.attr('name', 'nickname')
+					.attr('value', localStorage.nickname)
+					.appendTo(form);
 				form.submit();
 			},
 		});

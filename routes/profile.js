@@ -4,9 +4,11 @@ const userController = require('../controllers/user_controller');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 	if (req.session.loggedIn) {
-		res.render('profile');
+		const data = await userController.findUserByNickname(req.session.nickname);
+		console.log(data);
+		res.render('profile', data);
 	} else {
 		res.redirect('/login');
 	}
@@ -26,7 +28,6 @@ router.post('/', async (req, res) => {
 			data = await updateNickname(req.body.nickname, req.body.newNickname);
 			res.render('profile', data);
 		} else if (req.body.deleteAccount) {
-			console.log(req.body.nickname);
 			await userController.deleteUser(req.body.nickname);
 			res.redirect('/logout');
 		}

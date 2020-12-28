@@ -42,7 +42,7 @@
 			if ('<%= locals.newNickname %>') {
 				console.log('<%= locals.newNickname %>');
 				localStorage.nickname = '<%= locals.newNickname %>';
-			}
+			} // ?
 		</script>
 
 		<div class="container">
@@ -52,9 +52,9 @@
 				</div>
 			</div>
 
-			<p><b>Nickname: </b></p>
-			<p><b>Wins: </b></p>
-			<p><b>Losses: </b></p>
+			<p><b>Nickname: </b><% if (locals.nickname) { %><%= locals.nickname %><% } %></p>
+			<p><b>Wins: </b><% if (locals.wins || locals.wins === 0) { %><%= locals.wins %><% } %></p>
+			<p><b>Losses: </b><% if (locals.losses || locals.losses === 0) { %><%= locals.losses %><% } %></p>
 
 			<h3>Match history</h3>
 			<table class="table-striped section-margin-bottom full-width" id="matchHistory"></table>

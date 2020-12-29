@@ -272,11 +272,11 @@ $(() => {
 		const table = $('#scoreboard')[0];
 		const row = table.insertRow();
 		let rowName = row.insertCell();
-		rowName.innerHTML = `<b>Sum</b>`;
+		rowName.innerHTML = `<b style="color:red">Total</b>`;
 
 		for (const item in scoreboards) {
 			let finalScore = row.insertCell();
-			finalScore.innerHTML = scoreboards[item].finalScore;
+			finalScore.innerHTML = `<b>${scoreboards[item].finalScore}</b>`;
 		}
 	}
 

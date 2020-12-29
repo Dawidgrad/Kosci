@@ -163,8 +163,7 @@ $(() => {
 	socket.on('game ended', (gameState) => {
 		$('#rollDice').prop('disabled', true);
 		$('#submitRoll').prop('disabled', true);
-		$('#rowDropdown').addClass('d-none');
-		$('#submitRoll').addClass('d-none');
+		$('.score-submission').addClass('d-none');
 
 		const scoreboards = gameState.scoreboards;
 		loadScoreboards(scoreboards);

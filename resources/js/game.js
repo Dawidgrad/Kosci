@@ -148,7 +148,7 @@ $(() => {
 		drawDice(currentRoll, currentPlayer);
 		loadScoreboards(scoreboards);
 		updateRowSelection(scoreboards);
-		$('#game-state').html(`<b>Current turn: ${currentPlayer}</br>Rolls left: ${rollsLeft}</b>`);
+		$('#game-state').html(`<b>${currentPlayer}'s turn</br>Rolls left: ${rollsLeft}</b>`);
 
 		// Control UI
 		if (currentPlayer !== localStorage.nickname) {

@@ -71,9 +71,9 @@ $(() => {
 			obj['rowToSubmit'] = key;
 			obj['nickname'] = localStorage.nickname;
 			socket.emit('submit roll', obj);
-			$('#selectRow')[0].innerHTML = 'Select row';
+			$('#selectRow')[0].innerHTML = 'Select row to submit';
 		} else {
-			console.log('Select a row to submit the score');
+			addMessageToChat('System', 'Select a row to submit the score!');
 		}
 	});
 
@@ -131,7 +131,7 @@ $(() => {
 		const scoreboards = gameState.scoreboards;
 
 		for (let i = 0; i < 5; i++) {
-			if (currentRoll && rollsLeft < 3) {
+			if (currentRoll && rollsLeft < 2) {
 				if (currentRoll[i].selected) {
 					gameState.currentRoll[i].selected = true;
 				} else {
@@ -177,11 +177,13 @@ $(() => {
 	});
 
 	socket.on('update messages', (data) => {
-		const chatBox = $('#chat-box');
-		chatBox.append(`<p><b>${data.nickname}:</b> ${data.message}</p>`);
-
-		// Scroll chat to the latest message
-		$('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
+		if (data.nickname === 'System') {
+			// Server feedback
+			addMessageToChat(data.nickname, data.message, 'green');
+		} else {
+			// Regular messages
+			addMessageToChat(data.nickname, data.message);
+		}
 	});
 
 	async function drawDice(roll, currentPlayer) {
@@ -300,5 +302,25 @@ $(() => {
 				$(`#${keys[key]}`).addClass('disabled');
 			}
 		}
+	}
+
+	function addMessageToChat(nickname, message, color) {
+		const chatBox = $('#chat-box');
+
+		if (color) {
+			// Messages with pre-defined colour
+			chatBox.append(`<p style="color:${color}"><b>${nickname}:</b> ${message}</p>`);
+		} else {
+			if (data.nickname === 'System') {
+				// Error messages
+				chatBox.append(`<p style="color:red"><b>${nickname}:</b> ${message}</p>`);
+			} else {
+				// Regular messages
+				chatBox.append(`<p><b>${nickname}:</b> ${message}</p>`);
+			}
+		}
+
+		// Scroll chat to the latest message
+		$('#chat-box').scrollTop($('#chat-box')[0].scrollHeight);
 	}
 });

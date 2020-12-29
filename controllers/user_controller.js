@@ -13,7 +13,6 @@ async function findUserByNickname(userNickname) {
 async function addUser(data) {
 	const user = data;
 	user.wins = 0;
-	user.losses = 0;
 
 	const newUser = new User(user);
 	newUser.save((error) => {

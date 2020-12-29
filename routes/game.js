@@ -32,6 +32,12 @@ function setUpSocketListeners(io) {
 				if (joinedRoom) {
 					socket.join(name);
 				}
+
+				const data = {
+					nickname: 'System',
+					message: `${nickname} has joined the room!`,
+				};
+				io.in(name).emit('update messages', data);
 			});
 
 			socket.on('start game', async () => {

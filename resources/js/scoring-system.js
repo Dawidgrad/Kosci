@@ -259,8 +259,16 @@ class TwoPairs extends CalculationStrategy {
 class SmallStraight extends CalculationStrategy {
 	validateCombination(roll) {
 		const frequencyArray = getFrequencyArray(roll);
+		const smallStraight = [1, 1, 1, 1, 1, 0];
+		let isEqual = true;
 
-		return frequencyArray === [1, 1, 1, 1, 1, 0];
+		for (let i = 0; i < frequencyArray.length; i++) {
+			if (frequencyArray[i] !== smallStraight[i]) {
+				isEqual = false;
+			}
+		}
+
+		return isEqual;
 	}
 
 	calculateScore(roll, firstRoll) {
@@ -277,8 +285,16 @@ class SmallStraight extends CalculationStrategy {
 class LargeStraight extends CalculationStrategy {
 	validateCombination(roll) {
 		const frequencyArray = getFrequencyArray(roll);
+		const largeStraight = [0, 1, 1, 1, 1, 1];
+		let isEqual = true;
 
-		return frequencyArray === [0, 1, 1, 1, 1, 1];
+		for (let i = 0; i < frequencyArray.length; i++) {
+			if (frequencyArray[i] !== largeStraight[i]) {
+				isEqual = false;
+			}
+		}
+
+		return isEqual;
 	}
 
 	calculateScore(roll, firstRoll) {

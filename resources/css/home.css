@@ -6,6 +6,10 @@ h2 {
 	text-align: center;
 }
 
+.rule-paragraph {
+	padding: 1vh;
+}
+
 .container {
 	margin-top: 3%;
 	background-color: white;

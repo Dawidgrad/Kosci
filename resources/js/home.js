@@ -1,5 +1,6 @@
 $(() => {
 	const socket = io();
+	const MAX_PAGE_ENTRIES = 6;
 	let listIndex = 0;
 	let rooms = [];
 
@@ -14,7 +15,7 @@ $(() => {
 			$('#previousButton').prop('disabled', true);
 		}
 
-		if (this.rooms.length <= 10) {
+		if (this.rooms.length <= MAX_PAGE_ENTRIES) {
 			$('#nextButton').prop('disabled', true);
 		}
 
@@ -29,7 +30,7 @@ $(() => {
 	});
 
 	$('#previousButton').click(() => {
-		listIndex -= 10;
+		listIndex -= MAX_PAGE_ENTRIES;
 		fillRoomList(this.rooms);
 
 		$('#nextButton').prop('disabled', false);
@@ -40,20 +41,27 @@ $(() => {
 	});
 
 	$('#nextButton').click(() => {
-		listIndex += 10;
+		listIndex += MAX_PAGE_ENTRIES;
 		fillRoomList(this.rooms);
 
 		$('#previousButton').prop('disabled', false);
 
-		if (listIndex + 10 >= this.rooms.length) {
+		if (listIndex + MAX_PAGE_ENTRIES >= this.rooms.length) {
 			$('#nextButton').prop('disabled', true);
 		}
 	});
 
 	function fillRoomList(rooms) {
 		$('#roomList tr').remove();
+		let header = `<tr class="table-row-height">
+			<th>Room name</th>
+			<th>Participants</th>
+			<th>Status</th>
+			<th></th>
+			</tr>`;
+		$('#roomList').append(header);
 
-		let indexLimit = listIndex + 10 < rooms.length ? listIndex + 10 : rooms.length;
+		let indexLimit = listIndex + MAX_PAGE_ENTRIES < rooms.length ? listIndex + MAX_PAGE_ENTRIES : rooms.length;
 
 		for (let i = listIndex; i < indexLimit; i++) {
 			const name = rooms[i].name;

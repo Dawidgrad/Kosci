@@ -92,7 +92,7 @@ $(() => {
 		}
 	});
 
-	$('#messageBox').keypress(function (e) {
+	$('#messageBox').keyup(function (e) {
 		if (e.which === 13) {
 			$('#sendMessage').click();
 		}

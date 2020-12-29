@@ -29,7 +29,7 @@ $(() => {
 		threeKind: 'Three of a kind',
 		fullHouse: 'Full House',
 		fourKind: 'Four of a kind',
-		kosci: 'Kosci',
+		kosci: 'Kosci (Five of a kind)',
 		chance: 'Chance',
 	};
 

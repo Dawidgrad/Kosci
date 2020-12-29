@@ -33,7 +33,7 @@ class GameSystem {
 		this.currentRoll = this.rollSystem.newRoll();
 		this.currentPlayer = this.players[0];
 		this.roundCount = 1;
-		this.rollsLeft = 3;
+		this.rollsLeft = 2;
 	}
 
 	// Reroll all or part of the current dice roll
@@ -75,7 +75,7 @@ class GameSystem {
 	}
 
 	nextPlayer() {
-		this.rollsLeft = 3;
+		this.rollsLeft = 2;
 
 		// Get the next player
 		for (let i = 0; i < this.players.length; i++) {

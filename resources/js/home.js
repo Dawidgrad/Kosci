@@ -13,10 +13,18 @@ $(() => {
 
 		if (listIndex === 0) {
 			$('#previousButton').prop('disabled', true);
+		} else {
+			const previousPage = parseInt(listIndex / MAX_PAGE_ENTRIES);
+			const maxPage = parseInt(this.rooms.length / MAX_PAGE_ENTRIES) + 1;
+			$('#previousButton').html(`Previous Page (${previousPage} of ${maxPage})`);
 		}
 
 		if (this.rooms.length <= MAX_PAGE_ENTRIES) {
 			$('#nextButton').prop('disabled', true);
+		} else {
+			const nextPage = parseInt(listIndex / MAX_PAGE_ENTRIES) + 2;
+			const maxPage = parseInt(this.rooms.length / MAX_PAGE_ENTRIES) + 1;
+			$('#nextButton').html(`Next Page (${nextPage} of ${maxPage})`);
 		}
 
 		$('.join-button').click(() => {
@@ -35,9 +43,17 @@ $(() => {
 
 		$('#nextButton').prop('disabled', false);
 
+		const maxPage = parseInt(this.rooms.length / MAX_PAGE_ENTRIES) + 1;
+
 		if (listIndex === 0) {
 			$('#previousButton').prop('disabled', true);
+		} else {
+			const previousPage = parseInt(listIndex / MAX_PAGE_ENTRIES);
+			$('#previousButton').html(`Previous Page (${previousPage} of ${maxPage})`);
 		}
+
+		const nextPage = parseInt(listIndex / MAX_PAGE_ENTRIES) + 2;
+		$('#nextButton').html(`Next Page (${nextPage} of ${maxPage})`);
 	});
 
 	$('#nextButton').click(() => {
@@ -46,9 +62,17 @@ $(() => {
 
 		$('#previousButton').prop('disabled', false);
 
+		const maxPage = parseInt(this.rooms.length / MAX_PAGE_ENTRIES) + 1;
+
 		if (listIndex + MAX_PAGE_ENTRIES >= this.rooms.length) {
 			$('#nextButton').prop('disabled', true);
+		} else {
+			const nextPage = parseInt(listIndex / MAX_PAGE_ENTRIES) + 2;
+			$('#nextButton').html(`Next Page (${nextPage} of ${maxPage})`);
 		}
+
+		const previousPage = parseInt(listIndex / MAX_PAGE_ENTRIES);
+		$('#previousButton').html(`Previous Page (${previousPage} of ${maxPage})`);
 	});
 
 	function fillRoomList(rooms) {
@@ -62,6 +86,8 @@ $(() => {
 		$('#roomList').append(header);
 
 		let indexLimit = listIndex + MAX_PAGE_ENTRIES < rooms.length ? listIndex + MAX_PAGE_ENTRIES : rooms.length;
+
+		sortRoomList(rooms);
 
 		for (let i = listIndex; i < indexLimit; i++) {
 			const name = rooms[i].name;
@@ -78,5 +104,12 @@ $(() => {
 
 			$('#roomList > tbody:last-child').append(row);
 		}
+	}
+
+	function sortRoomList(rooms) {
+		// Open rooms first, in progress rooms last
+		rooms.sort((x, y) => {
+			return x.inProgress === y.inProgress ? 0 : x.inProgress ? 1 : -1;
+		});
 	}
 });

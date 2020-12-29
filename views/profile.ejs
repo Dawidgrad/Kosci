@@ -49,8 +49,26 @@
 			<p><b>Nickname: </b><% if (locals.nickname) { %><%= locals.nickname %><% } %></p>
 			<p><b>Wins: </b><% if (locals.wins || locals.wins === 0) { %><%= locals.wins %><% } %></p>
 
-			<h3>Match history</h3>
-			<table class="table-striped section-margin-bottom full-width" id="matchHistory"></table>
+			<h3>Match history (Most recent 10)</h3>
+			<table class="table-striped section-margin-bottom full-width" id="matchHistory">
+				<tr>
+					<td><b>Result</b></td>
+					<td><b>Participants</b></td>
+					<td><b>Your score</b></td>
+				</tr>
+				<% if (locals.scoreboards) { let maxIndex = locals.scoreboards.length > 10 ? 10 :
+				(locals.scoreboards.length - 1); for (let i = maxIndex; i >= 0; i--) { %>
+				<tr>
+					<% if (locals.scoreboards[i].winner) { %>
+					<td style="background-color: lightgreen">Win</td>
+					<% } else {%>
+					<td style="background-color: lightcoral">Lost</td>
+					<% } %>
+					<td><%= locals.scoreboards[i].participants %></td>
+					<td><%= locals.scoreboards[i].score %></td>
+				</tr>
+				<% } } %>
+			</table>
 
 			<div class="row profile-section">
 				<div class="col-lg-4">

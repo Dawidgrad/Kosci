@@ -1,6 +1,7 @@
 const express = require('express');
 const roomController = require('../controllers/room_controller');
 const scoreboardController = require('../controllers/scoreboard_controller');
+const userController = require('../controllers/user_controller');
 const GameSystem = require('../resources/js/game-system').GameSystem;
 
 const router = express.Router();
@@ -89,6 +90,9 @@ function setUpSocketListeners(io) {
 					if (gameState.gameEnded) {
 						scoreboardController.submitScoreboards(gameState.scoreboards, gameState.winner);
 						io.in(roomName).emit('game ended', gameState);
+
+						const winner = await userController.findUserByNickname(gameState.winner);
+						await userController.updateUserWins(winner);
 
 						// Remove the game entry
 						games = games.filter((item) => item !== game);

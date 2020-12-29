@@ -24,6 +24,15 @@ async function addUser(data) {
 	});
 }
 
+async function updateUserWins(user) {
+	user.wins += 1;
+	user.save((error) => {
+		if (error) {
+			console.log("Could not update user's record!");
+		}
+	});
+}
+
 async function updatePassword(user, newPassword) {
 	user.password = newPassword;
 	user.save((error) => {
@@ -80,6 +89,7 @@ async function deleteUser(nickname) {
 module.exports.findUserByEmail = findUserByEmail;
 module.exports.findUserByNickname = findUserByNickname;
 module.exports.addUser = addUser;
+module.exports.updateUserWins = updateUserWins;
 module.exports.updatePassword = updatePassword;
 module.exports.updateEmail = updateEmail;
 module.exports.updateNickname = updateNickname;

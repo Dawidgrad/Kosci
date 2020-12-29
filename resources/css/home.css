@@ -46,3 +46,8 @@ h2 {
 #deleteUser {
 	margin-left: 2%;
 }
+
+#matchHistory {
+	border-collapse: separate;
+	border-spacing: 0 3px;
+}

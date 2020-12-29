@@ -1,14 +1,15 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const userController = require('../controllers/user_controller');
+const scoreboardController = require('../controllers/scoreboard_controller');
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
 	if (req.session.loggedIn) {
-		const data = await userController.findUserByNickname(req.session.nickname);
-		console.log(data);
-		res.render('profile', data);
+		const user = await userController.findUserByNickname(req.session.nickname);
+		user.scoreboards = await scoreboardController.findUserScoreboards(req.session.nickname);
+		res.render('profile', user);
 	} else {
 		res.redirect('/login');
 	}
@@ -16,20 +17,29 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 	try {
-		data = {};
+		const user = await userController.findUserByNickname(req.session.nickname);
+		const scoreboards = { scoreboards: await scoreboardController.findUserScoreboards(req.session.nickname) };
+		const userInfo = Object.assign(user, scoreboards);
 
-		if (req.body.passwordChange) {
-			data = await updatePassword(req.body.nickname, req.body.oldPassword, req.body.newPassword);
-			res.render('profile', data);
-		} else if (req.body.emailChange) {
-			data = await updateEmail(req.body.nickname, req.body.oldEmail, req.body.newEmail);
-			res.render('profile', data);
-		} else if (req.body.nicknameChange) {
-			data = await updateNickname(req.body.nickname, req.body.newNickname);
-			res.render('profile', data);
-		} else if (req.body.deleteAccount) {
+		// User decided to delete the account
+		if (req.body.deleteAccount) {
 			await userController.deleteUser(req.body.nickname);
 			res.redirect('/logout');
+		} else {
+			feedback = {};
+
+			// User decided to change details
+			if (req.body.passwordChange) {
+				feedback = await updatePassword(req.body.nickname, req.body.oldPassword, req.body.newPassword);
+			} else if (req.body.emailChange) {
+				feedback = await updateEmail(req.body.nickname, req.body.oldEmail, req.body.newEmail);
+			} else if (req.body.nicknameChange) {
+				feedback = await updateNickname(req.body.nickname, req.body.newNickname);
+				scoreboardController.updateScoreboardsPlayerName(req.body.nickname, req.body.newNickname);
+			}
+
+			const data = Object.assign(userInfo, feedback);
+			res.render('profile', data);
 		}
 	} catch (ex) {
 		console.log(ex);
@@ -55,22 +65,22 @@ async function updatePassword(nickname, currentPassword, newPassword) {
 }
 
 async function updateEmail(nickname, currentEmail, newEmail) {
-	let data = {};
+	let feedback = {};
 	const user = await userController.findUserByNickname(nickname);
 
 	if (user.email === currentEmail) {
 		const emailUpdated = await userController.updateEmail(user, newEmail);
 
 		if (emailUpdated) {
-			data = { message: 'Email changed!' };
+			feedback = { message: 'Email changed!' };
 		} else {
-			data = { error: 'Email already exists in the system!' };
+			feedback = { error: 'Email already exists in the system!' };
 		}
 	} else {
-		data = { error: 'Current email is incorrect!' };
+		feedback = { error: 'Current email is incorrect!' };
 	}
 
-	return data;
+	return feedback;
 }
 
 async function updateNickname(nickname, newNickname) {

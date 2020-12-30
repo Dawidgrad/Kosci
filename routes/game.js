@@ -47,6 +47,8 @@ function setUpSocketListeners(io) {
 				await roomController.updateRoomProgress(roomName, true);
 				const room = await roomController.findRoomByName(roomName);
 
+				io.in(roomName).emit('game started');
+
 				// Create game
 				const game = new GameSystem(roomName, room.participants);
 				games.push(game);

@@ -31,8 +31,9 @@ table {
 
 #chat-area {
 	border: 1px black solid;
-	height: 220px;
+	height: 500px;
 	padding: 1vh;
+	margin-top: 5vh;
 }
 
 #sum {

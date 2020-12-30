@@ -39,16 +39,21 @@ $(() => {
 	if (urlParams.get('name') == '') {
 		socket.emit('create room', localStorage.nickname);
 	} else {
-		$('#startGame').prop('disabled', true);
+		$('#rollDice').removeClass('d-none');
+		$('#rollDice').prop('disabled', true);
+		$('#startGame').addClass('d-none');
 		socket.emit('join room', urlParams.get('name'), localStorage.nickname);
 	}
+
+	$('#game-state').html(`<b>Room name: ${urlParams.get('name')}</b>`);
 
 	// Initialise canvas
 	const canvas = document.getElementById('game-canvas');
 	const ctx = canvas.getContext('2d');
 
 	$('#startGame').click(() => {
-		$('#startGame').prop('disabled', true);
+		$('#rollDice').removeClass('d-none');
+		$('#startGame').addClass('d-none');
 		socket.emit('start game');
 	});
 
@@ -123,6 +128,15 @@ $(() => {
 
 	socket.on('room created', (name) => {
 		history.pushState(null, null, `/game?name=${name}`);
+		$('#game-state').html(`<b>Room name: ${urlParams.get('name')}</b>`);
+	});
+
+	socket.on('game started', () => {
+		$('#game-canvas').removeClass('d-none');
+		$('#scoreboard').removeClass('d-none');
+		$('.score-submission').removeClass('d-none');
+		$('#chat-area').css('height', '250px');
+		$('#chat-area').css('margin-top', '0vh');
 	});
 
 	socket.on('game state update', (gameState) => {
@@ -299,7 +313,7 @@ $(() => {
 		// Disable selections that are not empty in the selection
 		for (const key in keys) {
 			if (scoreboard.scores[keys[key]] !== null) {
-				$(`#${keys[key]}`).addClass('disabled');
+				$(`#${keys[key]}`).addClass('d-none');
 			}
 		}
 	}
@@ -311,7 +325,7 @@ $(() => {
 			// Messages with pre-defined colour
 			chatBox.append(`<p style="color:${color}"><b>${nickname}:</b> ${message}</p>`);
 		} else {
-			if (data.nickname === 'System') {
+			if (nickname === 'System') {
 				// Error messages
 				chatBox.append(`<p style="color:red"><b>${nickname}:</b> ${message}</p>`);
 			} else {

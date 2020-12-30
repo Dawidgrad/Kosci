@@ -55,8 +55,10 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6">
-					<button class="btn-info btn col-lg-5 mx-auto game-state-element" id="startGame">Start game</button>
-					<button class="btn-info btn col-lg-5 mx-auto game-state-element" id="rollDice">Roll dice</button>
+					<button class="btn-info btn col-lg mx-auto game-state-element" id="startGame">Start game</button>
+					<button class="btn-info btn col-lg mx-auto game-state-element d-none" id="rollDice">
+						Roll dice
+					</button>
 				</div>
 
 				<div class="col-lg-6">
@@ -66,14 +68,14 @@
 
 			<div class="row">
 				<div class="col-lg-6">
-					<canvas id="game-canvas" width="500" height="500"></canvas>
+					<canvas class="d-none" id="game-canvas" width="500" height="500"></canvas>
 				</div>
 
 				<div class="col-lg-6">
 					<div class="row" style="height: 90%">
-						<table class="table-striped section-margin-bottom full-width" id="scoreboard"></table>
+						<table class="table-striped section-margin-bottom full-width d-none" id="scoreboard"></table>
 					</div>
-					<div class="row score-submission" style="height: 4%">
+					<div class="row score-submission d-none" style="height: 4%">
 						<div class="btn-group col-lg-5 mx-auto">
 							<button
 								type="button"
@@ -110,12 +112,12 @@
 
 			<div class="row" id="chat-area">
 				<div id="chat-box">
-					<p><b>System: </b>Click on the die in order to <b>preserve</b> it.</p>
-					<p>
+					<p style="color: red"><b>System: </b>Click on the die in order to <b>preserve</b> it.</p>
+					<p style="color: red">
 						<b>System: </b>After starting the game, current turn is indicated in the top right corner and by
 						the color of the dice table border.
 					</p>
-					<p>
+					<p style="color: red">
 						<b>System: </b>You have 3 rolls in total, submit the score once you're satisfied with it by
 						selecting the row in the dropdown menu above and clicking the "Submit score" button.
 					</p>

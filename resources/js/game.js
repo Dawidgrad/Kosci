@@ -128,7 +128,7 @@ $(() => {
 
 	socket.on('room created', (name) => {
 		history.pushState(null, null, `/game?name=${name}`);
-		$('#game-state').html(`<b>Room name: ${urlParams.get('name')}</b>`);
+		$('#game-state').html(`<b>Room name: ${name}</b>`);
 	});
 
 	socket.on('game started', () => {

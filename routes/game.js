@@ -2,7 +2,7 @@ const express = require('express');
 const roomController = require('../controllers/room_controller');
 const scoreboardController = require('../controllers/scoreboard_controller');
 const userController = require('../controllers/user_controller');
-const GameSystem = require('../resources/js/game-system').GameSystem;
+const GameSystem = require('../game-logic/game-system').GameSystem;
 
 const router = express.Router();
 

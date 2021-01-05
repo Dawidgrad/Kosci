@@ -48,7 +48,7 @@ class GameSystem {
 	submitRoll(rowToUpdate) {
 		for (const item in this.scoreboards) {
 			if (this.scoreboards[item].player === this.currentPlayer.nickname) {
-				const isFirstRoll = this.rollsLeft === 3 ? true : false;
+				const isFirstRoll = this.rollsLeft === 2 ? true : false;
 				this.scoreboards[item].scores[rowToUpdate] = this.scoringSystem.calculateScore(
 					rowToUpdate,
 					this.currentRoll,

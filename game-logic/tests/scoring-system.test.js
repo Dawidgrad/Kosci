@@ -90,4 +90,209 @@ describe('Scoring system tests', () => {
 			expect(result).toBe(expected);
 		});
 	});
+
+	[
+		{ roll: [{ side: 6 }, { side: 1 }, { side: 6 }, { side: 6 }, { side: 2 }], expected: 24, firstRoll: true },
+		{ roll: [{ side: 3 }, { side: 1 }, { side: 2 }, { side: 6 }, { side: 4 }], expected: 0, firstRoll: true },
+		{ roll: [{ side: 1 }, { side: 4 }, { side: 1 }, { side: 4 }, { side: 3 }], expected: 8, firstRoll: false },
+		{ roll: [{ side: 5 }, { side: 2 }, { side: 1 }, { side: 3 }, { side: 4 }], expected: 0, firstRoll: false },
+	].map(({ roll, expected, firstRoll }) => {
+		test('Calculate score - Pair', () => {
+			const pair = new scoringFile.Pair();
+			const result = pair.calculateScore(roll, firstRoll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 6 }, { side: 1 }, { side: 6 }, { side: 1 }, { side: 2 }], expected: 28, firstRoll: true },
+		{ roll: [{ side: 4 }, { side: 1 }, { side: 2 }, { side: 6 }, { side: 4 }], expected: 0, firstRoll: true },
+		{ roll: [{ side: 5 }, { side: 4 }, { side: 5 }, { side: 4 }, { side: 3 }], expected: 18, firstRoll: false },
+		{ roll: [{ side: 5 }, { side: 2 }, { side: 1 }, { side: 3 }, { side: 4 }], expected: 0, firstRoll: false },
+	].map(({ roll, expected, firstRoll }) => {
+		test('Calculate score - Two Pairs', () => {
+			const twoPairs = new scoringFile.TwoPairs();
+			const result = twoPairs.calculateScore(roll, firstRoll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 5 }, { side: 1 }, { side: 4 }, { side: 3 }, { side: 2 }], expected: 30, firstRoll: true },
+		{ roll: [{ side: 2 }, { side: 4 }, { side: 5 }, { side: 6 }, { side: 3 }], expected: 0, firstRoll: true },
+		{ roll: [{ side: 5 }, { side: 4 }, { side: 1 }, { side: 2 }, { side: 3 }], expected: 15, firstRoll: false },
+		{ roll: [{ side: 5 }, { side: 1 }, { side: 1 }, { side: 3 }, { side: 4 }], expected: 0, firstRoll: false },
+	].map(({ roll, expected, firstRoll }) => {
+		test('Calculate score - Small Straight', () => {
+			const smallStraight = new scoringFile.SmallStraight();
+			const result = smallStraight.calculateScore(roll, firstRoll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 5 }, { side: 6 }, { side: 4 }, { side: 3 }, { side: 2 }], expected: 40, firstRoll: true },
+		{ roll: [{ side: 2 }, { side: 4 }, { side: 5 }, { side: 1 }, { side: 3 }], expected: 0, firstRoll: true },
+		{ roll: [{ side: 5 }, { side: 4 }, { side: 6 }, { side: 2 }, { side: 3 }], expected: 20, firstRoll: false },
+		{ roll: [{ side: 5 }, { side: 5 }, { side: 3 }, { side: 3 }, { side: 5 }], expected: 0, firstRoll: false },
+	].map(({ roll, expected, firstRoll }) => {
+		test('Calculate score - Large Straight', () => {
+			const largeStraight = new scoringFile.LargeStraight();
+			const result = largeStraight.calculateScore(roll, firstRoll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 5 }, { side: 5 }, { side: 2 }, { side: 3 }, { side: 5 }], expected: 30, firstRoll: true },
+		{ roll: [{ side: 2 }, { side: 4 }, { side: 5 }, { side: 1 }, { side: 3 }], expected: 0, firstRoll: true },
+		{ roll: [{ side: 2 }, { side: 1 }, { side: 2 }, { side: 2 }, { side: 3 }], expected: 6, firstRoll: false },
+		{ roll: [{ side: 6 }, { side: 6 }, { side: 3 }, { side: 3 }, { side: 5 }], expected: 0, firstRoll: false },
+	].map(({ roll, expected, firstRoll }) => {
+		test('Calculate score - Three of a kind', () => {
+			const threeOfKind = new scoringFile.ThreeOfKind();
+			const result = threeOfKind.calculateScore(roll, firstRoll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 1 }, { side: 3 }, { side: 1 }, { side: 3 }, { side: 3 }], expected: 22, firstRoll: true },
+		{ roll: [{ side: 2 }, { side: 1 }, { side: 5 }, { side: 1 }, { side: 3 }], expected: 0, firstRoll: true },
+		{ roll: [{ side: 2 }, { side: 6 }, { side: 2 }, { side: 2 }, { side: 6 }], expected: 18, firstRoll: false },
+		{ roll: [{ side: 6 }, { side: 1 }, { side: 3 }, { side: 3 }, { side: 5 }], expected: 0, firstRoll: false },
+	].map(({ roll, expected, firstRoll }) => {
+		test('Calculate score - Full House', () => {
+			const fullHouse = new scoringFile.FullHouse();
+			const result = fullHouse.calculateScore(roll, firstRoll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 3 }, { side: 3 }, { side: 1 }, { side: 3 }, { side: 3 }], expected: 49, firstRoll: true },
+		{ roll: [{ side: 4 }, { side: 4 }, { side: 5 }, { side: 1 }, { side: 4 }], expected: 0, firstRoll: true },
+		{ roll: [{ side: 6 }, { side: 6 }, { side: 6 }, { side: 2 }, { side: 6 }], expected: 49, firstRoll: false },
+		{ roll: [{ side: 6 }, { side: 1 }, { side: 3 }, { side: 3 }, { side: 5 }], expected: 0, firstRoll: false },
+	].map(({ roll, expected, firstRoll }) => {
+		test('Calculate score - Four of a kind', () => {
+			const fourOfKind = new scoringFile.FourOfKind();
+			const result = fourOfKind.calculateScore(roll, firstRoll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 3 }, { side: 3 }, { side: 3 }, { side: 3 }, { side: 3 }], expected: 80, firstRoll: true },
+		{ roll: [{ side: 4 }, { side: 4 }, { side: 5 }, { side: 4 }, { side: 4 }], expected: 0, firstRoll: true },
+		{ roll: [{ side: 5 }, { side: 5 }, { side: 5 }, { side: 5 }, { side: 5 }], expected: 75, firstRoll: false },
+		{ roll: [{ side: 6 }, { side: 1 }, { side: 3 }, { side: 3 }, { side: 5 }], expected: 0, firstRoll: false },
+	].map(({ roll, expected, firstRoll }) => {
+		test('Calculate score - Kosci', () => {
+			const kosci = new scoringFile.Kosci();
+			const result = kosci.calculateScore(roll, firstRoll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 6 }, { side: 4 }, { side: 4 }, { side: 3 }, { side: 3 }], expected: 40, firstRoll: true },
+		{ roll: [{ side: 2 }, { side: 2 }, { side: 5 }, { side: 4 }, { side: 6 }], expected: 38, firstRoll: true },
+		{ roll: [{ side: 1 }, { side: 3 }, { side: 4 }, { side: 5 }, { side: 2 }], expected: 15, firstRoll: false },
+		{ roll: [{ side: 6 }, { side: 6 }, { side: 3 }, { side: 6 }, { side: 6 }], expected: 27, firstRoll: false },
+	].map(({ roll, expected, firstRoll }) => {
+		test('Calculate score - Chance', () => {
+			const chance = new scoringFile.Chance();
+			const result = chance.calculateScore(roll, firstRoll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 3 }, { side: 1 }, { side: 5 }, { side: 5 }, { side: 2 }], expected: true },
+		{ roll: [{ side: 5 }, { side: 1 }, { side: 2 }, { side: 6 }, { side: 4 }], expected: false },
+	].map(({ roll, expected }) => {
+		test('Validate - Pair', () => {
+			const pair = new scoringFile.Pair();
+			const result = pair.validateCombination(roll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 3 }, { side: 1 }, { side: 5 }, { side: 5 }, { side: 1 }], expected: true },
+		{ roll: [{ side: 4 }, { side: 3 }, { side: 2 }, { side: 6 }, { side: 4 }], expected: false },
+	].map(({ roll, expected }) => {
+		test('Validate - Two Pairs', () => {
+			const twoPairs = new scoringFile.TwoPairs();
+			const result = twoPairs.validateCombination(roll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 1 }, { side: 2 }, { side: 3 }, { side: 4 }, { side: 5 }], expected: true },
+		{ roll: [{ side: 2 }, { side: 2 }, { side: 5 }, { side: 4 }, { side: 3 }], expected: false },
+	].map(({ roll, expected }) => {
+		test('Validate - Small Straight', () => {
+			const smallStraight = new scoringFile.SmallStraight();
+			const result = smallStraight.validateCombination(roll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 3 }, { side: 2 }, { side: 6 }, { side: 4 }, { side: 5 }], expected: true },
+		{ roll: [{ side: 2 }, { side: 1 }, { side: 5 }, { side: 6 }, { side: 3 }], expected: false },
+	].map(({ roll, expected }) => {
+		test('Validate - Large Straight', () => {
+			const largeStraight = new scoringFile.LargeStraight();
+			const result = largeStraight.validateCombination(roll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 3 }, { side: 4 }, { side: 4 }, { side: 4 }, { side: 5 }], expected: true },
+		{ roll: [{ side: 2 }, { side: 2 }, { side: 5 }, { side: 6 }, { side: 3 }], expected: false },
+	].map(({ roll, expected }) => {
+		test('Validate - Three of a kind', () => {
+			const threeOfKind = new scoringFile.ThreeOfKind();
+			const result = threeOfKind.validateCombination(roll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 3 }, { side: 4 }, { side: 4 }, { side: 4 }, { side: 3 }], expected: true },
+		{ roll: [{ side: 2 }, { side: 3 }, { side: 6 }, { side: 6 }, { side: 3 }], expected: false },
+	].map(({ roll, expected }) => {
+		test('Validate - Full House', () => {
+			const fullHouse = new scoringFile.FullHouse();
+			const result = fullHouse.validateCombination(roll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 3 }, { side: 2 }, { side: 2 }, { side: 2 }, { side: 2 }], expected: true },
+		{ roll: [{ side: 6 }, { side: 6 }, { side: 6 }, { side: 1 }, { side: 3 }], expected: false },
+	].map(({ roll, expected }) => {
+		test('Validate - Four of a kind', () => {
+			const fourOfKind = new scoringFile.FourOfKind();
+			const result = fourOfKind.validateCombination(roll);
+			expect(result).toBe(expected);
+		});
+	});
+
+	[
+		{ roll: [{ side: 1 }, { side: 1 }, { side: 1 }, { side: 1 }, { side: 1 }], expected: true },
+		{ roll: [{ side: 5 }, { side: 1 }, { side: 5 }, { side: 1 }, { side: 5 }], expected: false },
+	].map(({ roll, expected }) => {
+		test('Validate - Kosci', () => {
+			const kosci = new scoringFile.Kosci();
+			const result = kosci.validateCombination(roll);
+			expect(result).toBe(expected);
+		});
+	});
 });

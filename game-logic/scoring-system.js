@@ -365,13 +365,14 @@ class FourOfKind extends CalculationStrategy {
 			for (let i = 5; i >= 0; i--) {
 				if (frequencyArray[i] >= 4) {
 					score = (i + 1) * 4;
+					score = firstRoll ? score * 2 : score;
 					score += 25; // Add bonus
 					break;
 				}
 			}
 		}
 
-		return firstRoll ? score * 2 : score;
+		return score;
 	}
 }
 
@@ -388,14 +389,15 @@ class Kosci extends CalculationStrategy {
 			const frequencyArray = getFrequencyArray(roll);
 			for (let i = 5; i >= 0; i--) {
 				if (frequencyArray[i] === 5) {
-					score = (i + 1) * 4;
+					score = (i + 1) * 5;
+					score = firstRoll ? score * 2 : score;
 					score += 50; // Add bonus
 					break;
 				}
 			}
 		}
 
-		return firstRoll ? score * 2 : score;
+		return score;
 	}
 }
 

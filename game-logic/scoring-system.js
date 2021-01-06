@@ -413,3 +413,19 @@ class Chance extends CalculationStrategy {
 }
 
 module.exports.ScoringSystem = ScoringSystem;
+module.exports.Ones = Ones;
+module.exports.Twos = Twos;
+module.exports.Threes = Threes;
+module.exports.Fours = Fours;
+module.exports.Fives = Fives;
+module.exports.Sixes = Sixes;
+module.exports.Pair = Pair;
+module.exports.TwoPairs = TwoPairs;
+module.exports.SmallStraight = SmallStraight;
+module.exports.LargeStraight = LargeStraight;
+module.exports.ThreeOfKind = ThreeOfKind;
+module.exports.FullHouse = FullHouse;
+module.exports.FourOfKind = FourOfKind;
+module.exports.Kosci = Kosci;
+module.exports.Chance = Chance;
+module.exports.getFrequencyArray = getFrequencyArray;

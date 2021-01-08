@@ -1,5 +1,5 @@
-const gameFile = require('../game-system.js');
-const Die = require('../die.js').Die;
+const gameFile = require('../../game-logic/game-system');
+const Die = require('../../game-logic/die').Die;
 
 describe('Game system tests', () => {
 	beforeEach(() => {

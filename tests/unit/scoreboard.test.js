@@ -1,4 +1,4 @@
-const Scoreboard = require('../scoreboard.js').Scoreboard;
+const Scoreboard = require('../../game-logic/scoreboard').Scoreboard;
 
 describe('Scoreboard model tests', () => {
 	test('Updating scores', () => {

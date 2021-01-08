@@ -1,4 +1,4 @@
-const scoringFile = require('../scoring-system.js');
+const scoringFile = require('../../game-logic/scoring-system');
 
 describe('Scoring system tests', () => {
 	test('Selecting strategy', () => {

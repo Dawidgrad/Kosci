@@ -1,5 +1,5 @@
-const rollingFile = require('../rolling-system.js');
-const Die = require('../die.js').Die;
+const rollingFile = require('../../game-logic/rolling-system');
+const Die = require('../../game-logic/die').Die;
 
 describe('Rolling system tests', () => {
 	beforeAll(() => {

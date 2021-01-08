@@ -1,4 +1,4 @@
-const Die = require('../die.js').Die;
+const Die = require('../../game-logic/die.js').Die;
 
 describe('Die model tests', () => {
 	beforeAll(() => {

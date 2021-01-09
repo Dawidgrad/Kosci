@@ -4,7 +4,7 @@
 	"description": "Dice game named \"Kosci\"",
 	"main": "server.js",
 	"scripts": {
-		"test": "set MONGODB_URL=mongodb+srv://dawidgrad:YubiYubi@university.vbira.mongodb.net/koscidb_test?retryWrites=true&& mocha --exit",
+		"test": "set SESSION_SECRET=mXdya3Pvaa&& set MONGODB_URL=mongodb+srv://dawidgrad:YubiYubi@university.vbira.mongodb.net/koscidb_test?retryWrites=true&& mocha --exit",
 		"start": "node server.js"
 	},
 	"repository": {

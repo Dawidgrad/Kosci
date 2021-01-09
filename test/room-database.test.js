@@ -7,9 +7,13 @@ describe('Room database integration tests', () => {
 	before(async () => {
 		// Connect MongoDB
 		mongoose.Promise = global.Promise;
-		mongoose.connect(process.env.MONGODB_URL, { useUnifiedTopology: true, useNewUrlParser: true });
-		mongoose.connection.on('error', (error) => {
-			console.warn('Error : ', error);
+		const db = mongoose.createConnection(process.env.MONGODB_URL, {
+			useUnifiedTopology: true,
+			useNewUrlParser: true,
+		});
+		db.on(`error`, console.error.bind(console, `connection error:`));
+		db.once(`open`, function () {
+			console.log(`MongoDB connected`);
 		});
 	});
 

@@ -13,19 +13,11 @@ async function findRoomByName(name) {
 async function updateRoomProgress(name, progress) {
 	const room = await findRoomByName(name);
 	room.inProgress = progress;
-	room.save((error) => {
-		if (error) {
-			console.log('Could not update room status!');
-		}
-	});
+	return room.save();
 }
 
 async function deleteRoom(name) {
-	Room.deleteOne({ name: name }, (error) => {
-		if (error) {
-			console.log(error);
-		}
-	});
+	return await Room.deleteOne({ name: name });
 }
 
 function generateId() {
@@ -44,11 +36,7 @@ async function createRoom(nickname) {
 	};
 
 	const newRoom = new Room(data);
-	await newRoom.save((error) => {
-		if (error) {
-			console.log('Could not create the room!');
-		}
-	});
+	await newRoom.save();
 	return newId;
 }
 
@@ -61,11 +49,7 @@ async function registerUser(roomName, nickname) {
 		participants.push({ nickname: nickname });
 
 		room.update({ _id: room._id }, { participants: participants });
-		room.save((error) => {
-			if (error) {
-				console.log('Could not update room!');
-			}
-		});
+		await room.save();
 
 		joinedRoom = true;
 	}

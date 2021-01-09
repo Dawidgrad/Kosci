@@ -4,7 +4,7 @@
 	"description": "Dice game named \"Kosci\"",
 	"main": "server.js",
 	"scripts": {
-		"test": "jest",
+		"test": "set MONGODB_URL=mongodb+srv://dawidgrad:YubiYubi@university.vbira.mongodb.net/koscidb_test?retryWrites=true&& mocha --exit",
 		"start": "node server.js"
 	},
 	"repository": {
@@ -22,16 +22,17 @@
 		"@turf/intersect": "^6.1.3",
 		"bcrypt": "^5.0.0",
 		"body-parser": "^1.19.0",
+		"chai": "^4.2.0",
+		"chai-http": "^4.3.0",
 		"dotenv": "^8.2.0",
 		"ejs": "^3.1.5",
 		"express": "^4.17.1",
 		"express-ejs-layouts": "^2.5.0",
 		"express-session": "^1.17.1",
-		"jest": "^26.6.3",
+		"mocha": "^8.2.1",
 		"mongodb": "^3.6.3",
 		"mongoose": "^5.10.14",
-		"socket.io": "^3.0.1",
-		"supertest": "^6.0.1"
+		"socket.io": "^3.0.1"
 	},
 	"devDependencies": {
 		"eslint": "^7.13.0",

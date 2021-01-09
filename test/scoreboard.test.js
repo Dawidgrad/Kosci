@@ -1,7 +1,9 @@
-const Scoreboard = require('../../game-logic/scoreboard').Scoreboard;
+const Scoreboard = require('../game-logic/scoreboard').Scoreboard;
+const chai = require('chai');
+const expect = require('chai').expect;
 
 describe('Scoreboard model tests', () => {
-	test('Updating scores', () => {
+	it('Updating scores', () => {
 		const scoreboard = new Scoreboard();
 
 		const expectedScores = {
@@ -25,7 +27,7 @@ describe('Scoreboard model tests', () => {
 
 		scoreboard.updateScoreboard(expectedScores, expectedFinal);
 
-		expect(scoreboard.scores).toStrictEqual(expectedScores);
-		expect(scoreboard.finalScore).toBe(expectedFinal);
+		expect(scoreboard.scores).to.deep.equal(expectedScores);
+		expect(scoreboard.finalScore).to.equal(expectedFinal);
 	});
 });

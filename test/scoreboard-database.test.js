@@ -3,7 +3,7 @@ const scoreboardController = require('../controllers/scoreboard_controller');
 const Scoreboard = require('../models/scoreboard');
 const expect = require('chai').expect;
 
-describe('Room database integration tests', () => {
+describe('Scoreboard database integration tests', () => {
 	before(async () => {
 		// Connect MongoDB
 		mongoose.Promise = global.Promise;

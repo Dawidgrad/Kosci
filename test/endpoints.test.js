@@ -76,7 +76,9 @@ describe('Login integration testing', () => {
 	it('Profile POST', () => {
 		chai.request(app)
 			.post('/profile')
-			.send({ nickname: 'ProfileTest' })
+			.send({
+				nickname: 'ProfileTest',
+			})
 			.end((error, response) => {
 				chai.assert.equal(response.status, 200, 'Wrong status code');
 				chai.assert.equal(response.type, 'text/html', 'Wrong type');

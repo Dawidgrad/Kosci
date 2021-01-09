@@ -1,20 +1,22 @@
-const rollingFile = require('../../game-logic/rolling-system');
-const Die = require('../../game-logic/die').Die;
+const rollingFile = require('../game-logic/rolling-system');
+const Die = require('../game-logic/die').Die;
+const chai = require('chai');
+const expect = require('chai').expect;
 
 describe('Rolling system tests', () => {
-	beforeAll(() => {
+	before(() => {
 		this.rollingSystem = new rollingFile.RollingSystem();
 	});
 
-	test('Rolling new dice', () => {
+	it('Rolling new dice', () => {
 		const roll = this.rollingSystem.newRoll();
-		expect(roll.length).toBe(5);
+		expect(roll.length).to.equal(5);
 		for (const dice in roll) {
-			expect(roll[dice] instanceof Die).toBe(true);
+			expect(roll[dice] instanceof Die).to.be.true;
 		}
 	});
 
-	test('Re-rolling dice', () => {
+	it('Re-rolling dice', () => {
 		const initialRoll = [];
 		let roll = [];
 		const diceToRoll = [0, 2, 4];
@@ -25,14 +27,14 @@ describe('Rolling system tests', () => {
 
 		roll = this.rollingSystem.reroll(roll, diceToRoll);
 
-		expect(initialRoll[0]).not.toStrictEqual(roll[0]);
-		expect(initialRoll[1]).toStrictEqual(roll[1]);
-		expect(initialRoll[2]).not.toStrictEqual(roll[2]);
-		expect(initialRoll[3]).toStrictEqual(roll[3]);
-		expect(initialRoll[4]).not.toStrictEqual(roll[4]);
+		expect(initialRoll[0]).to.not.deep.equal(roll[0]);
+		expect(initialRoll[1]).to.deep.equal(roll[1]);
+		expect(initialRoll[2]).to.not.deep.equal(roll[2]);
+		expect(initialRoll[3]).to.deep.equal(roll[3]);
+		expect(initialRoll[4]).to.not.deep.equal(roll[4]);
 	});
 
-	test('Separating dice', () => {
+	it('Separating dice', () => {
 		let dice = [
 			{ side: 2, x: 150, y: 200 },
 			{ side: 3, x: 150, y: 200 },
@@ -41,11 +43,11 @@ describe('Rolling system tests', () => {
 
 		dice = this.rollingSystem.separateDice(dice);
 
-		expect(dice[0].x).not.toBe(dice[1].x);
-		expect(dice[0].y).not.toBe(dice[1].y);
+		expect(dice[0].x).to.not.equal(dice[1].x);
+		expect(dice[0].y).to.not.equal(dice[1].y);
 	});
 
-	test('Separating selected dice', () => {
+	it('Separating selected dice', () => {
 		let dice = [
 			{ side: 2, x: 150, y: 200 },
 			{ side: 3, x: 150, y: 200 },
@@ -60,9 +62,9 @@ describe('Rolling system tests', () => {
 
 		dice = this.rollingSystem.separateSelectedDice(dice, [0, 1]);
 
-		expect(dice[0].x).not.toBe(dice[1].x);
-		expect(dice[0].y).not.toBe(dice[1].y);
-		expect(initialDice[3]).toStrictEqual(dice[3]);
+		expect(dice[0].x).to.not.equal(dice[1].x);
+		expect(dice[0].y).to.not.equal(dice[1].y);
+		expect(initialDice[3]).to.deep.equal(dice[3]);
 	});
 
 	[
@@ -71,11 +73,11 @@ describe('Rolling system tests', () => {
 		{ dieA: { x: 150, y: 400 }, dieB: { x: 210, y: 460 }, expected: false },
 		{ dieA: { x: 20, y: 150 }, dieB: { x: 150, y: 20 }, expected: true },
 	].map(({ dieA, dieB, expected }) => {
-		test('Checking intersection', () => {
+		it('Checking intersection', () => {
 			const result = this.rollingSystem.checkIntersection(dieA, dieB);
 			const isNull = result === null;
 
-			expect(isNull).toBe(expected);
+			expect(isNull).to.equal(expected);
 		});
 	});
 });

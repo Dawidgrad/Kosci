@@ -1,11 +1,13 @@
-const scoringFile = require('../../game-logic/scoring-system');
+const scoringFile = require('../game-logic/scoring-system');
+const chai = require('chai');
+const expect = require('chai').expect;
 
 describe('Scoring system tests', () => {
-	test('Selecting strategy', () => {
+	it('Selecting strategy', () => {
 		const scoringSystem = new scoringFile.ScoringSystem();
 		scoringSystem.selectStrategy('smallStraight');
 		const strategy = scoringSystem.strategy;
-		expect(strategy instanceof scoringFile.SmallStraight).toBe(true);
+		expect(strategy instanceof scoringFile.SmallStraight).to.be.true;
 	});
 
 	[
@@ -13,9 +15,9 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 1 }, { side: 1 }, { side: 1 }, { side: 5 }, { side: 1 }], expected: [4, 0, 0, 0, 1, 0] },
 		{ roll: [{ side: 6 }, { side: 2 }, { side: 5 }, { side: 4 }, { side: 3 }], expected: [0, 1, 1, 1, 1, 1] },
 	].map(({ roll, expected }) => {
-		test('Getting frequency array', () => {
+		it('Getting frequency array', () => {
 			const result = scoringFile.getFrequencyArray(roll);
-			expect(result).toStrictEqual(expected);
+			expect(result).to.deep.equal(expected);
 		});
 	});
 
@@ -24,10 +26,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 5 }, { side: 1 }, { side: 1 }, { side: 5 }, { side: 1 }], expected: 3 },
 		{ roll: [{ side: 5 }, { side: 2 }, { side: 6 }, { side: 3 }, { side: 6 }], expected: 0 },
 	].map(({ roll, expected }) => {
-		test('Calculate score - Ones', () => {
+		it('Calculate score - Ones', () => {
 			const ones = new scoringFile.Ones();
 			const result = ones.calculateScore(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -36,10 +38,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 2 }, { side: 2 }, { side: 2 }, { side: 2 }, { side: 2 }], expected: 10 },
 		{ roll: [{ side: 5 }, { side: 3 }, { side: 6 }, { side: 3 }, { side: 6 }], expected: 0 },
 	].map(({ roll, expected }) => {
-		test('Calculate score - Twos', () => {
+		it('Calculate score - Twos', () => {
 			const twos = new scoringFile.Twos();
 			const result = twos.calculateScore(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -48,10 +50,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 3 }, { side: 3 }, { side: 3 }, { side: 3 }, { side: 3 }], expected: 15 },
 		{ roll: [{ side: 6 }, { side: 6 }, { side: 6 }, { side: 1 }, { side: 1 }], expected: 0 },
 	].map(({ roll, expected }) => {
-		test('Calculate score - Threes', () => {
+		it('Calculate score - Threes', () => {
 			const threes = new scoringFile.Threes();
 			const result = threes.calculateScore(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -60,10 +62,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 4 }, { side: 4 }, { side: 4 }, { side: 4 }, { side: 4 }], expected: 20 },
 		{ roll: [{ side: 1 }, { side: 2 }, { side: 3 }, { side: 6 }, { side: 5 }], expected: 0 },
 	].map(({ roll, expected }) => {
-		test('Calculate score - Fours', () => {
+		it('Calculate score - Fours', () => {
 			const fours = new scoringFile.Fours();
 			const result = fours.calculateScore(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -72,10 +74,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 5 }, { side: 5 }, { side: 5 }, { side: 5 }, { side: 5 }], expected: 25 },
 		{ roll: [{ side: 3 }, { side: 3 }, { side: 2 }, { side: 2 }, { side: 4 }], expected: 0 },
 	].map(({ roll, expected }) => {
-		test('Calculate score - Fives', () => {
+		it('Calculate score - Fives', () => {
 			const fives = new scoringFile.Fives();
 			const result = fives.calculateScore(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -84,10 +86,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 6 }, { side: 6 }, { side: 6 }, { side: 6 }, { side: 6 }], expected: 30 },
 		{ roll: [{ side: 3 }, { side: 5 }, { side: 2 }, { side: 1 }, { side: 4 }], expected: 0 },
 	].map(({ roll, expected }) => {
-		test('Calculate score - Sixes', () => {
+		it('Calculate score - Sixes', () => {
 			const sixes = new scoringFile.Sixes();
 			const result = sixes.calculateScore(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -97,10 +99,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 1 }, { side: 4 }, { side: 1 }, { side: 4 }, { side: 3 }], expected: 8, firstRoll: false },
 		{ roll: [{ side: 5 }, { side: 2 }, { side: 1 }, { side: 3 }, { side: 4 }], expected: 0, firstRoll: false },
 	].map(({ roll, expected, firstRoll }) => {
-		test('Calculate score - Pair', () => {
+		it('Calculate score - Pair', () => {
 			const pair = new scoringFile.Pair();
 			const result = pair.calculateScore(roll, firstRoll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -110,10 +112,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 5 }, { side: 4 }, { side: 5 }, { side: 4 }, { side: 3 }], expected: 18, firstRoll: false },
 		{ roll: [{ side: 5 }, { side: 2 }, { side: 1 }, { side: 3 }, { side: 4 }], expected: 0, firstRoll: false },
 	].map(({ roll, expected, firstRoll }) => {
-		test('Calculate score - Two Pairs', () => {
+		it('Calculate score - Two Pairs', () => {
 			const twoPairs = new scoringFile.TwoPairs();
 			const result = twoPairs.calculateScore(roll, firstRoll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -123,10 +125,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 5 }, { side: 4 }, { side: 1 }, { side: 2 }, { side: 3 }], expected: 15, firstRoll: false },
 		{ roll: [{ side: 5 }, { side: 1 }, { side: 1 }, { side: 3 }, { side: 4 }], expected: 0, firstRoll: false },
 	].map(({ roll, expected, firstRoll }) => {
-		test('Calculate score - Small Straight', () => {
+		it('Calculate score - Small Straight', () => {
 			const smallStraight = new scoringFile.SmallStraight();
 			const result = smallStraight.calculateScore(roll, firstRoll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -136,10 +138,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 5 }, { side: 4 }, { side: 6 }, { side: 2 }, { side: 3 }], expected: 20, firstRoll: false },
 		{ roll: [{ side: 5 }, { side: 5 }, { side: 3 }, { side: 3 }, { side: 5 }], expected: 0, firstRoll: false },
 	].map(({ roll, expected, firstRoll }) => {
-		test('Calculate score - Large Straight', () => {
+		it('Calculate score - Large Straight', () => {
 			const largeStraight = new scoringFile.LargeStraight();
 			const result = largeStraight.calculateScore(roll, firstRoll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -149,10 +151,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 2 }, { side: 1 }, { side: 2 }, { side: 2 }, { side: 3 }], expected: 6, firstRoll: false },
 		{ roll: [{ side: 6 }, { side: 6 }, { side: 3 }, { side: 3 }, { side: 5 }], expected: 0, firstRoll: false },
 	].map(({ roll, expected, firstRoll }) => {
-		test('Calculate score - Three of a kind', () => {
+		it('Calculate score - Three of a kind', () => {
 			const threeOfKind = new scoringFile.ThreeOfKind();
 			const result = threeOfKind.calculateScore(roll, firstRoll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -162,10 +164,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 2 }, { side: 6 }, { side: 2 }, { side: 2 }, { side: 6 }], expected: 18, firstRoll: false },
 		{ roll: [{ side: 6 }, { side: 1 }, { side: 3 }, { side: 3 }, { side: 5 }], expected: 0, firstRoll: false },
 	].map(({ roll, expected, firstRoll }) => {
-		test('Calculate score - Full House', () => {
+		it('Calculate score - Full House', () => {
 			const fullHouse = new scoringFile.FullHouse();
 			const result = fullHouse.calculateScore(roll, firstRoll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -175,10 +177,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 6 }, { side: 6 }, { side: 6 }, { side: 2 }, { side: 6 }], expected: 49, firstRoll: false },
 		{ roll: [{ side: 6 }, { side: 1 }, { side: 3 }, { side: 3 }, { side: 5 }], expected: 0, firstRoll: false },
 	].map(({ roll, expected, firstRoll }) => {
-		test('Calculate score - Four of a kind', () => {
+		it('Calculate score - Four of a kind', () => {
 			const fourOfKind = new scoringFile.FourOfKind();
 			const result = fourOfKind.calculateScore(roll, firstRoll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -188,10 +190,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 5 }, { side: 5 }, { side: 5 }, { side: 5 }, { side: 5 }], expected: 75, firstRoll: false },
 		{ roll: [{ side: 6 }, { side: 1 }, { side: 3 }, { side: 3 }, { side: 5 }], expected: 0, firstRoll: false },
 	].map(({ roll, expected, firstRoll }) => {
-		test('Calculate score - Kosci', () => {
+		it('Calculate score - Kosci', () => {
 			const kosci = new scoringFile.Kosci();
 			const result = kosci.calculateScore(roll, firstRoll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -201,10 +203,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 1 }, { side: 3 }, { side: 4 }, { side: 5 }, { side: 2 }], expected: 15, firstRoll: false },
 		{ roll: [{ side: 6 }, { side: 6 }, { side: 3 }, { side: 6 }, { side: 6 }], expected: 27, firstRoll: false },
 	].map(({ roll, expected, firstRoll }) => {
-		test('Calculate score - Chance', () => {
+		it('Calculate score - Chance', () => {
 			const chance = new scoringFile.Chance();
 			const result = chance.calculateScore(roll, firstRoll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -212,10 +214,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 3 }, { side: 1 }, { side: 5 }, { side: 5 }, { side: 2 }], expected: true },
 		{ roll: [{ side: 5 }, { side: 1 }, { side: 2 }, { side: 6 }, { side: 4 }], expected: false },
 	].map(({ roll, expected }) => {
-		test('Validate - Pair', () => {
+		it('Validate - Pair', () => {
 			const pair = new scoringFile.Pair();
 			const result = pair.validateCombination(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -223,10 +225,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 3 }, { side: 1 }, { side: 5 }, { side: 5 }, { side: 1 }], expected: true },
 		{ roll: [{ side: 4 }, { side: 3 }, { side: 2 }, { side: 6 }, { side: 4 }], expected: false },
 	].map(({ roll, expected }) => {
-		test('Validate - Two Pairs', () => {
+		it('Validate - Two Pairs', () => {
 			const twoPairs = new scoringFile.TwoPairs();
 			const result = twoPairs.validateCombination(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -234,10 +236,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 1 }, { side: 2 }, { side: 3 }, { side: 4 }, { side: 5 }], expected: true },
 		{ roll: [{ side: 2 }, { side: 2 }, { side: 5 }, { side: 4 }, { side: 3 }], expected: false },
 	].map(({ roll, expected }) => {
-		test('Validate - Small Straight', () => {
+		it('Validate - Small Straight', () => {
 			const smallStraight = new scoringFile.SmallStraight();
 			const result = smallStraight.validateCombination(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -245,10 +247,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 3 }, { side: 2 }, { side: 6 }, { side: 4 }, { side: 5 }], expected: true },
 		{ roll: [{ side: 2 }, { side: 1 }, { side: 5 }, { side: 6 }, { side: 3 }], expected: false },
 	].map(({ roll, expected }) => {
-		test('Validate - Large Straight', () => {
+		it('Validate - Large Straight', () => {
 			const largeStraight = new scoringFile.LargeStraight();
 			const result = largeStraight.validateCombination(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -256,10 +258,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 3 }, { side: 4 }, { side: 4 }, { side: 4 }, { side: 5 }], expected: true },
 		{ roll: [{ side: 2 }, { side: 2 }, { side: 5 }, { side: 6 }, { side: 3 }], expected: false },
 	].map(({ roll, expected }) => {
-		test('Validate - Three of a kind', () => {
+		it('Validate - Three of a kind', () => {
 			const threeOfKind = new scoringFile.ThreeOfKind();
 			const result = threeOfKind.validateCombination(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -267,10 +269,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 3 }, { side: 4 }, { side: 4 }, { side: 4 }, { side: 3 }], expected: true },
 		{ roll: [{ side: 2 }, { side: 3 }, { side: 6 }, { side: 6 }, { side: 3 }], expected: false },
 	].map(({ roll, expected }) => {
-		test('Validate - Full House', () => {
+		it('Validate - Full House', () => {
 			const fullHouse = new scoringFile.FullHouse();
 			const result = fullHouse.validateCombination(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -278,10 +280,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 3 }, { side: 2 }, { side: 2 }, { side: 2 }, { side: 2 }], expected: true },
 		{ roll: [{ side: 6 }, { side: 6 }, { side: 6 }, { side: 1 }, { side: 3 }], expected: false },
 	].map(({ roll, expected }) => {
-		test('Validate - Four of a kind', () => {
+		it('Validate - Four of a kind', () => {
 			const fourOfKind = new scoringFile.FourOfKind();
 			const result = fourOfKind.validateCombination(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 
@@ -289,10 +291,10 @@ describe('Scoring system tests', () => {
 		{ roll: [{ side: 1 }, { side: 1 }, { side: 1 }, { side: 1 }, { side: 1 }], expected: true },
 		{ roll: [{ side: 5 }, { side: 1 }, { side: 5 }, { side: 1 }, { side: 5 }], expected: false },
 	].map(({ roll, expected }) => {
-		test('Validate - Kosci', () => {
+		it('Validate - Kosci', () => {
 			const kosci = new scoringFile.Kosci();
 			const result = kosci.validateCombination(roll);
-			expect(result).toBe(expected);
+			expect(result).to.equal(expected);
 		});
 	});
 });

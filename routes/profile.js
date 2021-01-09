@@ -17,8 +17,10 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 	try {
-		const user = await userController.findUserByNickname(req.session.nickname);
-		const scoreboards = { scoreboards: await scoreboardController.findUserScoreboards(req.session.nickname) };
+		const user = await userController.findUserByNickname(req.session.nickname || req.body.nickname);
+		const scoreboards = {
+			scoreboards: await scoreboardController.findUserScoreboards(req.session.nickname || req.body.nickname),
+		};
 		const userInfo = Object.assign(user, scoreboards);
 
 		// User decided to delete the account

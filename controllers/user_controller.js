@@ -18,28 +18,18 @@ async function addUser(data) {
 	newUser.save((error) => {
 		if (error) {
 			console.log('Could not add the user');
-		} else {
-			console.log('Successfully added the user!');
 		}
 	});
 }
 
 async function updateUserWins(user) {
 	user.wins += 1;
-	user.save((error) => {
-		if (error) {
-			console.log("Could not update user's record!");
-		}
-	});
+	return user.save();
 }
 
 async function updatePassword(user, newPassword) {
 	user.password = newPassword;
-	user.save((error) => {
-		if (error) {
-			console.log("Could not update user's password!");
-		}
-	});
+	return user.save();
 }
 
 async function updateEmail(user, newEmail) {
@@ -49,11 +39,7 @@ async function updateEmail(user, newEmail) {
 		emailUpdated = false;
 	} else {
 		user.email = newEmail;
-		user.save((error) => {
-			if (error) {
-				console.log("Could not update user's password!");
-			}
-		});
+		await user.save();
 		emailUpdated = true;
 	}
 
@@ -67,11 +53,7 @@ async function updateNickname(user, newNickname) {
 		nicknameUpdated = false;
 	} else {
 		user.nickname = newNickname;
-		user.save((error) => {
-			if (error) {
-				console.log("Could not update user's password!");
-			}
-		});
+		await user.save();
 		nicknameUpdated = true;
 	}
 
@@ -79,7 +61,7 @@ async function updateNickname(user, newNickname) {
 }
 
 async function deleteUser(nickname) {
-	User.deleteOne({ nickname: nickname }, (error) => {
+	return await User.deleteOne({ nickname: nickname }, (error) => {
 		if (error) {
 			console.log(error);
 		}

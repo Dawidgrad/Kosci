@@ -1,3 +1,4 @@
+const { create } = require('../models/scoreboard');
 const Scoreboard = require('../models/scoreboard');
 
 async function findUserScoreboards(nickname) {
@@ -30,12 +31,7 @@ async function createScoreboard(nickname, participants, score, hasWon) {
 	};
 
 	const newScoreboard = new Scoreboard(data);
-	await newScoreboard.save((error) => {
-		if (error) {
-			console.log('Could not create the scoreboard!');
-		}
-	});
-	return newScoreboard;
+	return newScoreboard.save();
 }
 
 async function updateScoreboardsPlayerName(nickname, newNickname) {
@@ -43,14 +39,11 @@ async function updateScoreboardsPlayerName(nickname, newNickname) {
 
 	for (const item in scoreboards) {
 		scoreboards[item].player = newNickname;
-		scoreboards[item].save((error) => {
-			if (error) {
-				console.log('Could not update the scoreboard!');
-			}
-		});
+		await scoreboards[item].save();
 	}
 }
 
 module.exports.findUserScoreboards = findUserScoreboards;
 module.exports.submitScoreboards = submitScoreboards;
+module.exports.createScoreboard = createScoreboard;
 module.exports.updateScoreboardsPlayerName = updateScoreboardsPlayerName;

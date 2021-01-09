@@ -1,23 +1,25 @@
-const Die = require('../../game-logic/die.js').Die;
+const Die = require('../game-logic/die.js').Die;
+const chai = require('chai');
+const expect = require('chai').expect;
 
 describe('Die model tests', () => {
-	beforeAll(() => {
+	before(() => {
 		this.die = new Die();
 	});
 
-	test('Rolling die', () => {
+	it('Rolling die', () => {
 		this.die.roll();
 		const isInRange = this.die.side >= 1 && this.die.side <= 6;
 
-		expect(isInRange).toBe(true);
+		expect(isInRange).to.be.true;
 	});
 
-	test('Generating position', () => {
+	it('Generating position', () => {
 		this.die.generatePosition();
 		const xIsInRange = this.die.x >= 0 && this.die.x <= 400;
 		const yIsInRange = this.die.y >= 0 && this.die.y <= 400;
 
-		expect(xIsInRange).toBe(true);
-		expect(yIsInRange).toBe(true);
+		expect(xIsInRange).to.be.true;
+		expect(yIsInRange).to.be.true;
 	});
 });

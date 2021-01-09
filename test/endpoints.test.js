@@ -2,8 +2,10 @@ const app = require('../server').app;
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const expect = require('chai').expect;
+const session = require('express-session');
 
 chai.use(chaiHttp);
+app.use(session({ secret: process.env.SESSION_SECRET }));
 
 describe('Login integration testing', () => {
 	it('Register GET', () => {

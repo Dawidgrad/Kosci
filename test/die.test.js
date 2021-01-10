@@ -7,7 +7,7 @@ describe('Die model tests', () => {
 		this.die = new Die();
 	});
 
-	it.only('Rolling die', () => {
+	it('Rolling die', () => {
 		this.die.roll();
 		const isInRange = this.die.side >= 1 && this.die.side <= 6;
 

@@ -2,7 +2,17 @@
 
 describe('Cypress register testing', () => {
 	it('Visit register page', () => {
-		cy.visit('/register');
+		// Navigate to registration page and image snapshot test it
+		cy.visit('/register').then(() => {
+			cy.wait(1000);
+			cy.document().toMatchImageSnapshot({
+				imageConfig: {
+					threshold: 0.01,
+					thresholdType: 'percent',
+				},
+				name: 'RegistrationPage',
+			});
+		});
 
 		cy.contains('h3', 'Registration');
 		cy.get('nav').contains('Log-in');

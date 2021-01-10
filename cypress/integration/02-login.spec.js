@@ -2,9 +2,18 @@
 
 describe('Cypress login testing', () => {
 	it('Visit login page', () => {
+		// Navigate to login page and image snapshot test it
 		cy.visit('/login');
-
 		cy.contains('h3', 'Log-In');
+
+		cy.wait(1000);
+		cy.document().toMatchImageSnapshot({
+			imageConfig: {
+				threshold: 0.01,
+				thresholdType: 'percent',
+			},
+			name: 'LoginPage',
+		});
 
 		cy.get('nav').contains('Log-in');
 		cy.get('nav').contains('Register');
@@ -12,12 +21,16 @@ describe('Cypress login testing', () => {
 	});
 
 	it('Check navigation to register page', () => {
-		cy.get('nav').contains('Register').click();
+		cy.get('nav')
+			.contains('Register')
+			.click();
 		cy.contains('h3', 'Registration');
 		cy.go('back');
 		cy.contains('h3', 'Log-In');
 		cy.wait(1000);
-		cy.get('#login-form').contains('Register').click();
+		cy.get('#login-form')
+			.contains('Register')
+			.click();
 		cy.contains('h3', 'Registration');
 		cy.go('back');
 		cy.contains('h3', 'Log-In');
@@ -26,7 +39,9 @@ describe('Cypress login testing', () => {
 	it('Proceed to log in', () => {
 		cy.get('#email').type('cypresstest@gmail.com');
 		cy.get('#password').type('CypressTest!2');
-		cy.get('button').contains('Log-In').click();
+		cy.get('button')
+			.contains('Log-In')
+			.click();
 		cy.url().should('include', '/home');
 		cy.wait(1000);
 	});
